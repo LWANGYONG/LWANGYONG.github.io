@@ -3,7 +3,7 @@
   <entry>
     <title>Hello World</title>
     <url>/2020/12/20/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
 <h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
@@ -20,7 +20,7 @@
   <entry>
     <title>个人总结</title>
     <url>/2020/12/20/%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h1 id="1、服务器硬件知识和系统概念"><a href="#1、服务器硬件知识和系统概念" class="headerlink" title="1、服务器硬件知识和系统概念"></a>1、服务器硬件知识和系统概念</h1><p>服务器硬件组成<br>电源 CPU 内存 磁盘 风扇</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="1、服务器硬件知识和系统概念"><a href="#1、服务器硬件知识和系统概念" class="headerlink" title="1、服务器硬件知识和系统概念"></a>1、服务器硬件知识和系统概念</h1><p>服务器硬件组成<br>电源 CPU 内存 磁盘 风扇</p>
 <p>服务器核心知识</p>
 <ol>
 <li><p>服务器介绍部分<br>机架式、刀片式、塔式</p>
