@@ -72,7 +72,11 @@
     <div class="article-meta">
       <a href="/2020/12/20/%E6%80%BB%E7%BB%93/" class="article-date">
   <time datetime="2020-12-20T14:57:07.210Z" itemprop="datePublished">2020-12-20</time>
-</a>   
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%B8%AA%E4%BA%BA/">个人</a>
+  </div>
+  
 <div class="word_count">
     <span class="post-time">
         <span class="post-meta-item-icon">
@@ -94,14 +98,15 @@
  
     </div>
       
+    <div class="tocbot"></div>
+
 
 
 
   
     <div class="article-entry" itemprop="articleBody">
        
-  <ol>
-<li><p>服务器硬件知识和系统概念<br>服务器硬件组成<br>电源 CPU 内存 磁盘 风扇</p>
+  <h1 id="1、服务器硬件知识和系统概念"><a href="#1、服务器硬件知识和系统概念" class="headerlink" title="1、服务器硬件知识和系统概念"></a>1、服务器硬件知识和系统概念</h1><p>服务器硬件组成<br>电源 CPU 内存 磁盘 风扇</p>
 <p>服务器核心知识</p>
 <ol>
 <li><p>服务器介绍部分<br>机架式、刀片式、塔式</p>
@@ -120,28 +125,27 @@
 </li>
 </ol>
 <p>服务器系统知识<br>操作系统组成（内核 解释器 应用程序）</p>
-</li>
+<ol start="2">
 <li><p>系统安全部署与远程连接</p>
 <ol>
 <li><p>虚拟化环境部署 </p>
 <ol>
-<li><p>确认网络相关配置<br>a  编辑–虚拟网络编辑器–vmnet8的配置<br>NAT模式：   优点：不容易出现IP地址冲突     缺点：不能直接被其他宿主机访问<br>桥接模式：  优点：其他宿主机可以直接访问   缺点：容易造成IP地址冲突<br>仅主机模式：优点：安全                     缺点：不能访问外网<br>b  确认vmnet8虚拟主机 网卡配置正确<br>在Windows主机的网络适配器中–查看vmnet8配置<br>c  确认虚拟软件服务是否开启<br>win+r —-service.msc—-vmware开头的服务是否开启<br>d  确认电脑BIOS中有没有开启虚拟化功能</p>
+<li><p>确认网络相关配置<br>a  编辑–虚拟网络编辑器–vmnet8的配置<br>NAT模式：   优点：不容易出现IP地址冲突     缺点：不能直接被其他宿主机访问<br>桥接模式：  优点：其他宿主机可以直接访问   缺点：容易造成IP地址冲突<br>  仅主机模式：优点：安全                     缺点：不能访问外网<br>b  确认vmnet8虚拟主机 网卡配置正确<br>在Windows主机的网络适配器中–查看vmnet8配置<br>c  确认虚拟软件服务是否开启<br>win+r —-service.msc—-vmware开头的服务是否开启<br>d  确认电脑BIOS中有没有开启虚拟化功能</p>
 </li>
 <li><p>创建虚拟主机</p>
 </li>
 <li><p>系统安装说明<br>a 系统如何分区<br>b 预装什么软件（centos7 最小化安装 1236 centos6 最小安装 235）<br>yum list                                 — 可以安装和已知安装的所有软件<br>yum grouplist                            — 可以安装的和已安装的所有软件包组信息<br>yum groupinstall -y Development Tools    —安装软件包组的方法 </p>
 </li>
-<li><p>远程连接主机<br>01.借助软件进行连接<br>02.如何配置xshell<br>03.进行远程连接</p>
+<li><p>远程连接主机<br>01.借助软件进行连接<br>  02.如何配置xshell<br>  03.进行远程连接</p>
 </li>
 <li><p>远程连接不上<br>01.检查链路是否通畅<br>   ping 10.0.0.200<br>   不通的原因：<br>   a 物理线路<br>   b 网卡配置（IP地址 掩码 网关 DNS）<br>   c 网络安全策略阻止</p>
-<p>   d 虚拟网卡是否配置正确（重新初始化虚拟网络配置）<br>02.远程连接请求被阻止了<br>   客户端进行测试<br>   telnet 10.0.0.200<br>   a 安装策略被阻止了 防火墙配置<br>03.远程服务没有开启<br>   服务端进行测试<br>   systemctl status sshd<br>   ss=netstat -lntup<br>   [root@oldboy~]# ss -lntup<br>   Netid  State      Recv-Q Send-Q      Local Address:Port       Peer Address:Port<br>   Udp    UNCONN     0      0                127.0.0.1:323                     <em>:</em>       users:((“chronyd”,pid=806,fd=1))<br>   Udp    UNCONN     0      0                      ::1:323                    :::*       users:((“chronyd”,pid=806,fd=2))<br>   tcp    LISTEN     0      128                       <em>:22                     <em>:</em>       users:((“sshd”,pid=1846,fd=3))<br>   tcp    LISTEN     0      100               127.0.0.1:25                     <em>:</em>       users:((“master”,pid=1277,fd=13))<br>   tcp    LISTEN     0      128                      :::22                    :::</em>       users:((“sshd”,pid=1846,fd=4))<br>   tcp    LISTEN     0      100                     ::1:25                    :::*      users:((“master”,pid=1277,fd=14))<br>   -l  list      — 列表显示网络服务信息<br>   -n  number    — 以数字方式进行显示<br>   -t  tcp       — 网络协议<br>   -u  udp       — 网络协议<br>   -p  process   — 显示服务进程</p>
+<p>   d 虚拟网卡是否配置正确（重新初始化虚拟网络配置）<br>  02.远程连接请求被阻止了<br>   客户端进行测试<br>   telnet 10.0.0.200<br>   a 安装策略被阻止了 防火墙配置<br>  03.远程服务没有开启<br>   服务端进行测试<br>   systemctl status sshd<br>   ss=netstat -lntup<br>   [root@oldboy~]# ss -lntup<br>   Netid  State      Recv-Q Send-Q      Local Address:Port       Peer Address:Port<br>   Udp    UNCONN     0      0                127.0.0.1:323                     <em>:</em>       users:((“chronyd”,pid=806,fd=1))<br>   Udp    UNCONN     0      0                      ::1:323                    :::*       users:((“chronyd”,pid=806,fd=2))<br>   tcp    LISTEN     0      128                       <em>:22                     <em>:</em>       users:((“sshd”,pid=1846,fd=3))<br>   tcp    LISTEN     0      100               127.0.0.1:25                     <em>:</em>       users:((“master”,pid=1277,fd=13))<br>   tcp    LISTEN     0      128                      :::22                    :::</em>       users:((“sshd”,pid=1846,fd=4))<br>   tcp    LISTEN     0      100                     ::1:25                    :::*      users:((“master”,pid=1277,fd=14))<br>   -l  list      — 列表显示网络服务信息<br>   -n  number    — 以数字方式进行显示<br>   -t  tcp       — 网络协议<br>   -u  udp       — 网络协议<br>   -p  process   — 显示服务进程</p>
 <p>   如何用netstat命令<br>   yum install -y net-tools<br>   Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name<br>   tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      1846/sshd<br>   tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      1277/master<br>   tcp6       0      0 :::22                   :::*                    LISTEN      1846/sshd<br>   tcp6       0      0 ::1:25                  :::*                    LISTEN      1277/master<br>   udp        0      0 127.0.0.1:323           0.0.0.0:*                           806/chronyd<br>   udp6       0      0 ::1:323                 :::*                                806/chronyd<br>   只检查有22端口的信息<br>   [root@oldboy~]# netstat -lntup|grep “22”<br>   tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      1846/sshd<br>   tcp6       0      0 :::22                   :::*                    LISTEN      1846/sshd           </p>
 </li>
 </ol>
 </li>
 </ol>
-</li>
-<li><p>系统基础管理命令<br>1）必知必会<br>系统命令提示符<br>系统命令语法格式<br>系统目录结构</p>
+<h1 id="2、系统基础管理命令"><a href="#2、系统基础管理命令" class="headerlink" title="2、系统基础管理命令"></a>2、系统基础管理命令</h1><p>1）必知必会<br>系统命令提示符<br>系统命令语法格式<br>系统目录结构</p>
 <p>2）系统管理命令<br>a 所有基础命令参数熟记<br>  1.文件目录创建命令</p>
 <pre><code>mkdir 目录创建
 参数：-p 创建多级目录
@@ -182,37 +186,11 @@ vim 功能强大 有颜色区分不同信息
   %s#文本原有的内容#替换的内容#g   --- 将文件中指定信息全部替换
   % 全部做替换
   s substitute 替换
-  g global  将整行符合要求的字符都做替换
-
-  替换修改文件部分内容
-  :2,4s#oldboy#oldgirl#g   --- 将第二行到第四行内容替换
-  :12,$s#oldboy#oldgirl#g  --- 将第十二行到结尾内容替换
-4.批量修改文件内容
-  01. 批量进行注释
-  第一个步骤：进入批量编辑状态（视图模式）
-  ctrl+v  ---进入视图模式
-  -- VISUAL BLOCK --
-  第二个步骤：批量选中要编辑的行
-  方向键选择
-  第三个步骤：进行编辑修改
-  shift+i --- 进入单行编辑
-  第四个步骤：实现批量修改
-  按esc
-  02. 批量删除
-  第一个步骤：进入批量编辑状态（视图模式）
-  ctrl+v  ---进入视图模式
-  -- VISUAL BLOCK --
-  第二个步骤：批量选择要删除的列
-  方向键选择
-  第三个步骤：删除信息
-  按键盘d或者x</code></pre>
-<p>补充知识点：centos7<br>命名方式：ensxx   以太网  槽位</p>
+  g global  将整行符合要求的字符都做替换</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">  替换修改文件部分内容</span><br><span class="line">  :2,4s#oldboy#oldgirl#g   --- 将第二行到第四行内容替换</span><br><span class="line">  :12,$s#oldboy#oldgirl#g  --- 将第十二行到结尾内容替换</span><br><span class="line">4.批量修改文件内容</span><br><span class="line">  01. 批量进行注释</span><br><span class="line">  第一个步骤：进入批量编辑状态（视图模式）</span><br><span class="line">  ctrl+v  ---进入视图模式</span><br><span class="line">  -- VISUAL BLOCK --</span><br><span class="line">  第二个步骤：批量选中要编辑的行</span><br><span class="line">  方向键选择</span><br><span class="line">  第三个步骤：进行编辑修改</span><br><span class="line">  shift+i --- 进入单行编辑</span><br><span class="line">  第四个步骤：实现批量修改</span><br><span class="line">  按esc</span><br><span class="line">  02. 批量删除</span><br><span class="line">  第一个步骤：进入批量编辑状态（视图模式）</span><br><span class="line">  ctrl+v  ---进入视图模式</span><br><span class="line">  -- VISUAL BLOCK --</span><br><span class="line">  第二个步骤：批量选择要删除的列</span><br><span class="line">  方向键选择</span><br><span class="line">  第三个步骤：删除信息</span><br><span class="line">  按键盘d或者x</span><br></pre></td></tr></table></figure>
+<p>补充知识点：centos7<br>  命名方式：ensxx   以太网  槽位</p>
 <pre><code>    eth     以太网  0 1</code></pre>
-<p>修改方式：</p>
-</li>
-<li><p>安装系统时–菜单的界面–install centos7 选择–teb– net.ifnames=0 biosdevname=0</p>
-</li>
-<li><p>在系统中修改<br>a 编辑网卡配置文件中网卡名称信息<br>  vim /etc/sysconfig/network-scripts/ifcfg-ens33<br>  NAME=eth0      –net.ifname=0<br>  DEVICE=eth0    –biosdevname=0<br>b 重命名网卡配置文件名称信息<br>  mv ifcfg-ens33 ifcfg-eth0<br>c 修改网卡名称规则内核文件<br>  vim /etc/defualt/grub<br>  GRUB_CMDLINE_LINUX=”biosdevname=0 net.ifnames=0 rhgb quiet”<br>d 使系统重新加载grub配置文件<br>  grub2-mkconfig -o /boot/grub.cfg</p>
+<p>  修改方式：<br>  01.安装系统时–菜单的界面–install centos7 选择–teb– net.ifnames=0 biosdevname=0<br>  02.在系统中修改<br> a 编辑网卡配置文件中网卡名称信息<br>   vim /etc/sysconfig/network-scripts/ifcfg-ens33<br>   NAME=eth0      –net.ifname=0<br>   DEVICE=eth0    –biosdevname=0<br> b 重命名网卡配置文件名称信息<br>   mv ifcfg-ens33 ifcfg-eth0<br> c 修改网卡名称规则内核文件<br>   vim /etc/defualt/grub<br>   GRUB_CMDLINE_LINUX=”biosdevname=0 net.ifnames=0 rhgb quiet”<br> d 使系统重新加载grub配置文件<br>   grub2-mkconfig -o /boot/grub.cfg</p>
 </li>
 <li><p>vim 常见错误说明<br>1）vim命令后面一定要接文件<br>vim /etc/hosts<br>2）vim只能编辑存在的目录的文件<br>3）编辑文件突然非正常状态退出<br>   将错误信息制造出来<br>   编辑一个文件，在没有退出前，直接断开远程连接</p>
 <pre><code>    E325: 注意
@@ -236,8 +214,7 @@ vim 功能强大 有颜色区分不同信息
 
     交换文件 &quot;.oldbo.txt.swp&quot; 已存在！
     以只读方式打开([O]), 直接编辑((E)), 恢复((R)), 删除交换文件((D)), 退出((Q)), 中止((A)):</code></pre>
-<p>vim编辑文件原理</p>
-<ol>
+<h1 id="3、vim编辑文件原理"><a href="#3、vim编辑文件原理" class="headerlink" title="3、vim编辑文件原理"></a>3、vim编辑文件原理</h1><ol>
 <li>开始利用vim编辑一个文件</li>
 <li>需要判断编辑的文件所在目录是否有隐藏文件<br>拥有：会报错提示信息<br>没有：进入到命令模式</li>
 <li>在命令模式就会产生临时文件</li>
@@ -259,16 +236,20 @@ vim 功能强大 有颜色区分不同信息
 <pre><code>  ls    ls -l   ls-la
   ls -lt 
   ls -ltr   按照时间进行排序显示数据信息，并且是反序</code></pre>
-<p>企业工作的一个问题<br>多个运维人员维护服务器,</p>
-<p>2）查看文件内容信息方法<br>命令：cat</p>
-<pre><code>  cat -n   显示行号</code></pre>
-<p>命令：less/more</p>
-<pre><code> less /etc/profile
- more   向下：回车
-        向上：f/b
-head 前几行
-tail 后几行</code></pre>
 </li>
+</ol>
+<pre><code>企业工作的一个问题</code></pre>
+<p>多个运维人员维护服务器,</p>
+<pre><code>2）查看文件内容信息方法
+命令：cat
+      cat -n   显示行号
+     命令：less/more
+     less /etc/profile
+     more   向下：回车
+            向上：f/b
+    head 前几行
+    tail 后几行</code></pre>
+<ol start="4">
 <li><p>直接编辑文件命令<br>echo “oldboy” &gt;&gt;/oldboy/oldboy.txt<br>补充：echo命令用法说明<br>a 显示连续序列</p>
 <pre><code>[root@oldboy~]# echo &#123;01..100&#125;
 01 002 003 004 005 006 007 008 009 010 011 012 013 014 015 016 
@@ -282,13 +263,14 @@ tail 后几行</code></pre>
 <p>  练习题一：<br>  在oldboy目录下面创建出20个文件，二十个文件名为oldboy01,oldboy02..oldboy10</p>
 </li>
 </ol>
-<pre><code>  如何直接在文件中添加多行内容
- [root@oldboy~]# cat &gt;&gt;oldbo.txt &lt;&lt;EOF
- &gt; oldboy4
- &gt; oldboy5
- &gt; EOF</code></pre>
-<p>07 过滤筛选文件内容命令<br>   三剑客命令<br>   老三：grep  过滤筛选信息<br>   老二：sed   修改替换文件内容 擅长对文件中的行 进行操作<br>   老大：awk   擅长统计分析文件内容 擅长对文件中列进行操作</p>
-<p>   grep命令如何进行筛选<br>   01 筛选有oldboy信息<br>   [root@oldboy<del>]# grep “oldboy” oldbo.txt<br>   oldboy<br>   oldboy4<br>   oldboy5<br>   02 筛选有oldboy信息，但是将有oldboy信息的上一行信息也显示<br>   [root@oldboy</del>]# grep -B 1 “oldboy” oldbo.txt<br>   123<br>   oldboy<br>   –</p>
+<pre><code> 如何直接在文件中添加多行内容
+[root@oldboy~]# cat &gt;&gt;oldbo.txt &lt;&lt;EOF
+&gt; oldboy4
+&gt; oldboy5
+&gt; EOF</code></pre>
+<p>   07 过滤筛选文件内容命令<br>      三剑客命令<br>      老三：grep  过滤筛选信息<br>      老二：sed   修改替换文件内容 擅长对文件中的行 进行操作<br>      老大：awk   擅长统计分析文件内容 擅长对文件中列进行操作</p>
+<p>   grep命令如何进行筛选<br>   01 筛选有oldboy信息<br>   [root@oldboy<del>]# grep “oldboy” oldbo.txt<br>   oldboy<br>   oldboy4<br>   oldboy5<br>   02 筛选有oldboy信息，但是将有oldboy信息的上一行信息也显示<br>   [root@oldboy</del>]# grep -B 1 “oldboy” oldbo.txt<br>   123</p>
+<p>   oldboy</p>
 <p>   oldboy4<br>   oldboy5<br>   03 筛选有oldboy信息，但是将有oldboy信息的后一行信息也显示<br>   [root@oldboy~]# grep -A 1 “oldboy” oldbo.txt<br>   oldboy</p>
 <p>   –<br>   oldboy4<br>   oldboy5<br>   04 筛选oldboy的信息，但有上一行和下一行的信息<br>   grep -C 1 “oldboy” oldbo.txt<br>   05 统计有oldboy的信息出现多少次<br>   grep -c “oldboy” oldbo.txt</p>
 <p>   sed命令如何进行筛选<br>   [root@oldboy<del>]# sed -n “/oldboy/p” oldbo.txt<br>   oldboy<br>   oldboy4<br>   oldboy5<br>   awk命令如何筛选<br>   [root@oldboy</del>]# awk “/oldboy/“ oldbo.txt<br>   oldboy<br>   oldboy4<br>   oldboy5<br>07. 修改文件部分内容信息<br>    01. sed命令（真正修改）<br>    修改oldbo.txt文件内容 将文件oldboy信息修改为python<br>    vim 替换：:%s#oldboy#python#g<br>    sed ‘s#oldboy#python#g’ /root/oldbo.txt</p>
@@ -332,11 +314,21 @@ abc</code></pre>
 <li>rpm -e 软件名称 -nodeps    —推荐</li>
 </ol>
 </li>
-<li><p>系统优化知识回顾<br>1）查看系统信息的方法 uname cat /etc/redhat-release<br>2）创建用户信息设置<br>创建用户：useradd<br>创建多个用户：<br>a 借助sed命令<br>b 利用shell 脚本 循环语句<br>for num in {01..20};do useradd oldboy$num;done<br>设置密码信息：</p>
+<li><p>系统优化知识回顾</p>
+<pre><code>  1）查看系统信息的方法 uname cat /etc/redhat-release
+  2）创建用户信息设置
+  创建用户：useradd 
+  创建多个用户：
+  a 借助sed命令
+  b 利用shell 脚本 循环语句
+  for num in &#123;01..20&#125;;do useradd oldboy$num;done
+  设置密码信息：</code></pre>
 </li>
-<li><p>交换式密码设置<br>passwd 用户名</p>
+<li><p>交换式密码设置</p>
+<p>passwd 用户名</p>
 </li>
-<li><p>免交互设置密码<br>echo 123456|passwd –stdin oldboy02</p>
+<li><p>免交互设置密码</p>
+<p>echo 123456|passwd –stdin oldboy02</p>
 <p>创建用户同时设置密码<br>useradd oldboy02;echo 123456|passwd –stdin oldboy02</p>
 </li>
 <li><p>操作系统文件属性概念<br>ls -li /etc/ </p>
@@ -419,6 +411,8 @@ abc</code></pre>
 </div>
 
 <div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="tag">知识点</a></li></ul>
+
     </footer>
   </div>
 
