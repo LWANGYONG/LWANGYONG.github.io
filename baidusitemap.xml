@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://blog-xiaobai.gitee.io/xiaobai.gitee.io/xiaobai.gitee.io/2020/12/20/hello-world/</loc>
+    <loc>http://example.com/2020/12/20/hello-world/</loc>
     <lastmod>2020-12-24</lastmod>
   </url>
   <url>
-    <loc>https://blog-xiaobai.gitee.io/xiaobai.gitee.io/xiaobai.gitee.io/2020/12/20/%E6%80%BB%E7%BB%93/</loc>
+    <loc>http://example.com/2020/12/20/%E6%80%BB%E7%BB%93/</loc>
     <lastmod>2020-12-22</lastmod>
   </url>
 </urlset> 
