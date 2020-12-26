@@ -10,5 +10,5 @@ Disallow: /fonts/
 Disallow: /vendors/
 Disallow: /fancybox/
 
-Sitemap: https://lwangyong.github.io/sitemap.xml
-Sitemap: https://lwangyong.github.io/baidusitemap.xml
+Sitemap: https://lwangyong.gitub.io/sitemap.xml
+Sitemap: https://lwangyong.gitub.io/baidusitemap.xml
