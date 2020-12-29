@@ -6,14 +6,35 @@
 
 <head>
   <meta name="baidu-site-verification" content="code-VZI2g1UQMQ" />
-  
+  <script type="text/javascript">
+  // 浏览器搞笑标题
+  var OriginTitle = document.title;
+  var titleTime;
+  document.addEventListener('visibilitychange', function () {
+      if (location.href != "https://blog-wangyong.xyz/"){//主页不变
+          if (document.hidden) {
+              //$('[rel="icon"]').attr('href', "/funny.ico");
+              document.title = '/(ㄒoㄒ)/你弄丢了小白同学';
+              clearTimeout(titleTime);
+          }else {
+              //$('[rel="icon"]').attr('href', "/favicon.ico");
+              document.title = '(ฅ>ω<*ฅ) 噫又好啦~' + OriginTitle;
+              titleTime = setTimeout(function () {
+                  document.title = OriginTitle;
+              }, 2000);
+          }
+      }
+  });
+  </script>
   <meta charset="utf-8" />
-    
+   
+  <meta name="keywords" content="生活，代码，思考，博客，旅行" />
+   
   <meta name="description" content="本站是小白同学技术分享博客" />
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    about|me |  小白同学的博客
+    about |  小白同学的博客
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -37,6 +58,13 @@
 
   
 
+  
+  <!-- jquery，懒加载、统计、说说需要的jquery -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- Highlight.js -->
+  <link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/9.18.1/styles/a11y-dark.min.css" rel="stylesheet">
+  <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
 <link rel="alternate" href="/atom.xml" title="小白同学的博客" type="application/atom+xml">
 </head>
 
@@ -63,7 +91,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  about|me
+  about
 </h1>
  
 
@@ -71,10 +99,42 @@
        
     <div class="article-entry" itemprop="articleBody">
        
-  <p><strong>姓名：王勇</strong></p>
-<p><strong>现居：合肥</strong></p>
-<p><strong>邮箱：<a href="mailto:&#51;&#50;&#56;&#x35;&#56;&#56;&#52;&#x36;&#53;&#49;&#x40;&#x71;&#113;&#46;&#x63;&#111;&#x6d;">&#51;&#50;&#56;&#x35;&#56;&#56;&#52;&#x36;&#53;&#49;&#x40;&#x71;&#113;&#46;&#x63;&#111;&#x6d;</a></strong></p>
- 
+  <div class="entry-content">
+  <div id="hello-mashiro" class="popcontainer" style="min-height: 300px; padding: 2px 6px 4px; background-color: rgba(242, 242, 242, 0.5); border-radius: 10px;">
+    <center>
+    <p>
+    </p>
+    <h4>
+    与&nbsp;<ruby>
+    小白同学&nbsp;<rp>
+    （</rp>
+    <rp>
+    ）</rp>
+    </ruby>
+    通话中：</h4>
+    <p>
+    </p>
+    </center>
+    <bot-ui></botui>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/gh/LWANGYONG/cdn/img/botui.js"></script>
+
+<link href="https://cdn.bootcss.com/botui/0.3.9/botui-theme-default.css" rel="stylesheet">
+<link href="https://cdn.bootcss.com/botui/0.3.9/botui.min.css" rel="stylesheet">
+<img src="https://www.xxxzhy.com/images/彩虹滑稽羊.gif" />
+<h1 id="小白同学🐷🐵🐟"><a href="#小白同学🐷🐵🐟" class="headerlink" title="小白同学🐷🐵🐟"></a>小白同学🐷🐵🐟</h1><blockquote>
+<p><i class="fa fa-github-square" aria-hidden="true"></i> GitHub：<a href="https://github.com/LWANGYONG" target="_blank" rel="noopener">LWANGYONG</a></p>
+<!-- <p><i class="fa fa-git-square" aria-hidden="true"></i> Gitee：<a href="https://gitee.com/XXXZhy" target="_blank" rel="noopener">XXXZhy</a></p> -->
+<p><i class="fa fa-qq" aria-hidden="true"></i> QQ：3285884651</p>
+<p><i class="fa fa-weixin" aria-hidden="true"></i> 微信：QQIDWeChat666</p>
+
+
+
+
+<!-- <p><i class="fa fa-steam-square" aria-hidden="true"></i> Steam：<a href="https://steamcommunity.com/profiles/76561198327243133" target="_blank" rel="noopener">Zhy</a></p>  --> 
       <!-- reward -->
       
       <div id="reword-out">
@@ -208,6 +268,10 @@
 </section>
       <footer class="footer">
   <div class="outer">
+  <!-- 运行天数 -->
+	<ul>
+		<li><span id="runtime_span"></span></li>
+	</ul>
     <ul>
       <li>
         Copyrights &copy;
@@ -242,11 +306,29 @@
       <li>
         <!-- cnzz统计 -->
         
-        <script type="text/javascript" src='https://s4.cnzz.com/z_stat.php?id=1279548987&amp;web_id=1279548987'></script>
+       <!-- <script type="text/javascript" src='https://s4.cnzz.com/z_stat.php?id=1279548987&amp;web_id=1279548987'></script> -->
+	   <script type="text/javascript">			
+    function show_runtime() {
+        window.setTimeout("show_runtime()", 1000);
+        X = new Date("12/20/2020 19:40:05");
+        Y = new Date();
+        T = (Y.getTime() - X.getTime());
+        M = 24 * 60 * 60 * 1000;
+        a = T / M;
+        A = Math.floor(a);
+        b = (a - A) * 24;
+        B = Math.floor(b);
+        c = (b - B) * 60;
+        C = Math.floor((b - B) * 60);
+        D = Math.floor((c - C) * 60);
+        runtime_span.innerHTML = "小站在各种崩坏中坚持了: " + A + "天" + B + "小时" + C + "分" + D + "秒"
+    }
+	show_runtime();
+</script>
         
       </li>
     </ul>
-  </div>
+ </div>
 </footer>
       <div class="float_btns">
         <div class="totop" id="totop">
@@ -270,31 +352,73 @@
   <ul class="nav nav-main">
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/">主页</a>
+	<!-- 找到这里，添加代码 -->
+      <a class="nav-item-link" href="/">主页</a>	  
+			
+	<!-- 到这里结束 -->
+    <!-- <a class="nav-item-link" href="/%5Bobject%20Object%5D">主页</a> -->
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/archives">归档</a>
+	<!-- 找到这里，添加代码 -->
+      <a class="nav-item-link" href="/archives">归档</a>	  
+			
+			<ul class="sub-menu">
+			  
+				<li>
+				  <small><a class="nav-item-link" href="/categories">分类
+				  </a></small>
+				</li>
+			  
+				<li>
+				  <small><a class="nav-item-link" href="/tags">标签
+				  </a></small>
+				</li>
+			  
+			</ul>
+		  
+	<!-- 到这里结束 -->
+    <!-- <a class="nav-item-link" href="/%5Bobject%20Object%5D">归档</a> -->
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/categories">分类</a>
+	<!-- 找到这里，添加代码 -->
+      <a class="nav-item-link" href="/music">music</a>	  
+			
+	<!-- 到这里结束 -->
+    <!-- <a class="nav-item-link" href="/%5Bobject%20Object%5D">music</a> -->
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/tags">标签</a>
+	<!-- 找到这里，添加代码 -->
+      <a class="nav-item-link" href="/friends">友链</a>	  
+			
+	<!-- 到这里结束 -->
+    <!-- <a class="nav-item-link" href="/%5Bobject%20Object%5D">友链</a> -->
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/music">music</a>
+	<!-- 找到这里，添加代码 -->
+      <a class="nav-item-link" href="/about">关于我</a>	  
+			
+	<!-- 到这里结束 -->
+    <!-- <a class="nav-item-link" href="/%5Bobject%20Object%5D">关于我</a> -->
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/friends">友链</a>
+	<!-- 找到这里，添加代码 -->
+      <a class="nav-item-link" href="/shuoshuo">说说</a>	  
+			
+	<!-- 到这里结束 -->
+    <!-- <a class="nav-item-link" href="/%5Bobject%20Object%5D">说说</a> -->
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/about">关于我</a>
+	<!-- 找到这里，添加代码 -->
+      <a class="nav-item-link" href="/analytics">统计</a>	  
+			
+	<!-- 到这里结束 -->
+    <!-- <a class="nav-item-link" href="/%5Bobject%20Object%5D">统计</a> -->
     </li>
     
   </ul>
@@ -321,6 +445,40 @@
   <div id="local-search-result" class="local-search-result"></div>
 </div>
 </div>
+
+
+
+<!-- 二级导航CSS -->
+<style>
+.nav-main li ul{
+	display: none;
+}
+.nav-main li:hover ul{
+	display:block;
+}
+.sub-menu{
+    position: absolute;
+    background: #fff;
+    padding: 5px;
+    width: 8rem;
+    z-index:1000;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 1px 40px -8px rgba(0,0,0,.5);
+    -webkit-animation: fadeInUp .3s .1s ease both;
+    list-style:none;
+}
+.nav-main li ul::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    margin-left: -10px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent #fff transparent;
+}
+</style>
     </aside>
     <script>
       if (window.matchMedia("(max-width: 768px)").matches) {

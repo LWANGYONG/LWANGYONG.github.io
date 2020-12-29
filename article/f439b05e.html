@@ -6,9 +6,30 @@
 
 <head>
   <meta name="baidu-site-verification" content="code-VZI2g1UQMQ" />
-  
+  <script type="text/javascript">
+  // 浏览器搞笑标题
+  var OriginTitle = document.title;
+  var titleTime;
+  document.addEventListener('visibilitychange', function () {
+      if (location.href != "https://blog-wangyong.xyz/"){//主页不变
+          if (document.hidden) {
+              //$('[rel="icon"]').attr('href', "/funny.ico");
+              document.title = '/(ㄒoㄒ)/你弄丢了小白同学';
+              clearTimeout(titleTime);
+          }else {
+              //$('[rel="icon"]').attr('href', "/favicon.ico");
+              document.title = '(ฅ>ω<*ฅ) 噫又好啦~' + OriginTitle;
+              titleTime = setTimeout(function () {
+                  document.title = OriginTitle;
+              }, 2000);
+          }
+      }
+  });
+  </script>
   <meta charset="utf-8" />
-    
+   
+  <meta name="keywords" content="生活，代码，思考，博客，旅行" />
+   
   <meta name="description" content="本站是小白同学技术分享博客" />
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
@@ -37,6 +58,13 @@
 
   
 
+  
+  <!-- jquery，懒加载、统计、说说需要的jquery -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- Highlight.js -->
+  <link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/9.18.1/styles/a11y-dark.min.css" rel="stylesheet">
+  <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
 <link rel="alternate" href="/atom.xml" title="小白同学的博客" type="application/atom+xml">
 </head>
 
@@ -78,7 +106,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.9k</span>
+            <span class="post-count">1.8k</span>
         </span>
     </span>
 
@@ -103,7 +131,7 @@
     <div class="article-entry" itemprop="articleBody">
        
   <h1 id="1、综合架构组成说明"><a href="#1、综合架构组成说明" class="headerlink" title="1、综合架构组成说明"></a>1、综合架构组成说明</h1><p>用户访问网站是使用HTTP协议80端口，查看80端口是否开启</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lntup|grep 80</span><br></pre></td></tr></table></figure>
+<pre><code class="Linux">netstat -lntup|grep 80</code></pre>
 <p><img src="https://cdn.jsdelivr.net/gh/LWANGYONG/cdn/img/image-20201228203213963.png" alt="image-20201228203213963"></p>
 <p><strong>web服务器</strong>：让用户访问需要公网IP地址，域名解析，当访问网站的用户较多，同时写入增多消耗IO，服务器磁盘压力，为了缓解压力，用户在网站的注册等某些字符串信息，那就存储到数据库服务器，图片视频附件等存储在存储服务器，不够用是也可以配置多台服务器</p>
 <p>随着用户使用的增多，数据库，存储服务器可能损坏，就要有一个<strong>备份服务器</strong>，将数据库及存储服务器中的数据定时备份到备份服务器中，为了防止备份服务器损坏，要考虑多台备份服务器，尽量不要把备份服务器服务器放在同一个地方，用户不断增加，一个web服务器明显不够，就要增加多台web服务器，减缓第一台web服务器的压力。</p>
@@ -206,18 +234,56 @@
 <p>a、添加网卡</p>
 <p><img src="https://img2020.cnblogs.com/blog/1553636/202012/1553636-20201214211043888-723411525.png" alt="img"></p>
 <p> b、配置网卡</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-eth1</span><br><span class="line">或者输入 nmtui   图形化界面配置网卡</span><br></pre></td></tr></table></figure>
-<h2 id="2、系统优化过程"><a href="#2、系统优化过程" class="headerlink" title="2、系统优化过程"></a>2、系统优化过程</h2><h3 id="1）模板机优化配置——hosts-文件配置"><a href="#1）模板机优化配置——hosts-文件配置" class="headerlink" title="1）模板机优化配置——hosts 文件配置"></a>1）模板机优化配置——hosts 文件配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">先备份一下hosts文件</span><br><span class="line">\cp &#x2F;etc&#x2F;hosts&#123;.bak&#125;</span><br><span class="line">cat &gt;&#x2F;etc&#x2F;hosts&lt;&lt;EOF</span><br><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span><br><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6172.16.1.5      lb01</span><br><span class="line">172.16.1.6      lb02</span><br><span class="line">172.16.1.7      web01</span><br><span class="line">172.16.1.8      web02</span><br><span class="line">172.16.1.9      web03</span><br><span class="line">172.16.1.51     db01 db01.etiantian.org</span><br><span class="line">172.16.1.31     nfs01</span><br><span class="line">172.16.1.41     backup</span><br><span class="line">172.16.1.61     m01</span><br><span class="line">172.16.1.71     jumpserver</span><br><span class="line">172.16.1.72     zabbixEOF</span><br></pre></td></tr></table></figure>
+<pre><code class="linux">vim /etc/sysconfig/network-scripts/ifcfg-eth1
+或者输入 nmtui   图形化界面配置网卡</code></pre>
+<h2 id="2、系统优化过程"><a href="#2、系统优化过程" class="headerlink" title="2、系统优化过程"></a>2、系统优化过程</h2><h3 id="1）模板机优化配置——hosts-文件配置"><a href="#1）模板机优化配置——hosts-文件配置" class="headerlink" title="1）模板机优化配置——hosts 文件配置"></a>1）模板机优化配置——hosts 文件配置</h3><pre><code class="linux">先备份一下hosts文件
+\cp /etc/hosts&#123;.bak&#125;
+cat &gt;/etc/hosts&lt;&lt;EOF
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6172.16.1.5      lb01
+172.16.1.6      lb02
+172.16.1.7      web01
+172.16.1.8      web02
+172.16.1.9      web03
+172.16.1.51     db01 db01.etiantian.org
+172.16.1.31     nfs01
+172.16.1.41     backup
+172.16.1.61     m01
+172.16.1.71     jumpserver
+172.16.1.72     zabbixEOF</code></pre>
 <h3 id="2）模板机优化配置——跟新yum源"><a href="#2）模板机优化配置——跟新yum源" class="headerlink" title="2）模板机优化配置——跟新yum源"></a>2）模板机优化配置——跟新yum源</h3><p>更改yum源</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mv &#x2F;etc&#x2F;yum.repos.d&#x2F;CentOS-Base.repo &#x2F;etc&#x2F;yum.repos.d&#x2F;CentOS-Base.repo.backup &amp;&amp;\ curl -o &#x2F;etc&#x2F;yum.repos.d&#x2F;CentOS-Base.repo https:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;repo&#x2F;Centos-7.repo</span><br><span class="line"></span><br><span class="line">yum install -y wget</span><br><span class="line"></span><br><span class="line">wget -O &#x2F;etc&#x2F;yum.repos.d&#x2F;epel.repo http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;repo&#x2F;epel-7.repo</span><br></pre></td></tr></table></figure>
-<h3 id="3）模板机优化配置——关闭selinux"><a href="#3）模板机优化配置——关闭selinux" class="headerlink" title="3）模板机优化配置——关闭selinux"></a>3）模板机优化配置——关闭selinux</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sed -i.bak &#39;s&#x2F;SELINUX&#x3D;enforcing&#x2F;SELINUX&#x3D;disabled&#x2F;&#39; &#x2F;etc&#x2F;selinux&#x2F;config </span><br><span class="line">grep SELINUX&#x3D;disabled &#x2F;etc&#x2F;selinux&#x2F;config</span><br></pre></td></tr></table></figure>
-<h3 id="4-模板机优化配置——关闭iptables"><a href="#4-模板机优化配置——关闭iptables" class="headerlink" title="4) 模板机优化配置——关闭iptables"></a>4) 模板机优化配置——关闭iptables</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl disable firewalld</span><br><span class="line">systemctl ststus firewalld</span><br></pre></td></tr></table></figure>
-<h3 id="5-模板机优化配置——普通用户oldboy可以使用sudo"><a href="#5-模板机优化配置——普通用户oldboy可以使用sudo" class="headerlink" title="5) 模板机优化配置——普通用户oldboy可以使用sudo"></a>5) 模板机优化配置——普通用户oldboy可以使用sudo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">useradd oldboy</span><br><span class="line">echo 123456|passwd --stain oldboy</span><br><span class="line">echo &quot;oldboy ALL&#x3D;(ALL) NOPASSWD: ALL &quot;&gt;&gt;&#x2F;etc&#x2F;sudoers</span><br><span class="line">tail -1 &#x2F;etc&#x2F;sudoers</span><br><span class="line">visudo -c</span><br></pre></td></tr></table></figure>
-<h3 id="6-模板机优化配置——英文字符集"><a href="#6-模板机优化配置——英文字符集" class="headerlink" title="6) 模板机优化配置——英文字符集"></a>6) 模板机优化配置——英文字符集</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">先查看一下</span><br><span class="line">echo $LANG</span><br><span class="line">修改 </span><br><span class="line">localectl set-locale LANG&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">重启</span><br><span class="line">reboot</span><br><span class="line">echo $LANG</span><br></pre></td></tr></table></figure>
-<h3 id="7-模板机优化配置——时间同步"><a href="#7-模板机优化配置——时间同步" class="headerlink" title="7) 模板机优化配置——时间同步"></a>7) 模板机优化配置——时间同步</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">下载软件</span><br><span class="line">yum install -y ntpdate   </span><br><span class="line">echo &#39;#time sync by lidao at 2020-12-03&#39; &gt;&gt;&#x2F;var&#x2F;spool&#x2F;cron&#x2F;root  添加注释</span><br><span class="line">echo &#39;*&#x2F;5 * * * * &#x2F;usr&#x2F;sbin&#x2F;ntpdate ntp1.aliyun.com &gt;&#x2F;dev&#x2F;null 2&gt;&amp;1&#39; &gt;&gt;&#x2F;var&#x2F;spool&#x2F;cron&#x2F;root 每隔五分钟同步一次</span><br><span class="line">crontab -l   查看</span><br></pre></td></tr></table></figure>
-<h3 id="8-模板机优化配置——加大文件描述"><a href="#8-模板机优化配置——加大文件描述" class="headerlink" title="8) 模板机优化配置——加大文件描述"></a>8) 模板机优化配置——加大文件描述</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install -y lsoflsof -i:22   </span><br><span class="line">echo &#39;*             -           nofile            1024&#39; &gt;&gt;&#x2F;etc&#x2F;security&#x2F;limits.conf </span><br><span class="line">source &#x2F;etc&#x2F;security&#x2F;limits.conf </span><br></pre></td></tr></table></figure>
+<pre><code>mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup &amp;&amp;\ curl -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-7.repo
+
+yum install -y wget
+
+wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo</code></pre>
+<h3 id="3）模板机优化配置——关闭selinux"><a href="#3）模板机优化配置——关闭selinux" class="headerlink" title="3）模板机优化配置——关闭selinux"></a>3）模板机优化配置——关闭selinux</h3><pre><code>sed -i.bak &#39;s/SELINUX=enforcing/SELINUX=disabled/&#39; /etc/selinux/config 
+grep SELINUX=disabled /etc/selinux/config</code></pre>
+<h3 id="4-模板机优化配置——关闭iptables"><a href="#4-模板机优化配置——关闭iptables" class="headerlink" title="4) 模板机优化配置——关闭iptables"></a>4) 模板机优化配置——关闭iptables</h3><pre><code>systemctl stop firewalld
+systemctl disable firewalld
+systemctl ststus firewalld</code></pre>
+<h3 id="5-模板机优化配置——普通用户oldboy可以使用sudo"><a href="#5-模板机优化配置——普通用户oldboy可以使用sudo" class="headerlink" title="5) 模板机优化配置——普通用户oldboy可以使用sudo"></a>5) 模板机优化配置——普通用户oldboy可以使用sudo</h3><pre><code>useradd oldboy
+echo 123456|passwd --stain oldboy
+echo &quot;oldboy ALL=(ALL) NOPASSWD: ALL &quot;&gt;&gt;/etc/sudoers
+tail -1 /etc/sudoers
+visudo -c</code></pre>
+<h3 id="6-模板机优化配置——英文字符集"><a href="#6-模板机优化配置——英文字符集" class="headerlink" title="6) 模板机优化配置——英文字符集"></a>6) 模板机优化配置——英文字符集</h3><pre><code>先查看一下
+echo $LANG
+修改 
+localectl set-locale LANG=&quot;en_US.UTF-8&quot;
+重启
+reboot
+echo $LANG</code></pre>
+<h3 id="7-模板机优化配置——时间同步"><a href="#7-模板机优化配置——时间同步" class="headerlink" title="7) 模板机优化配置——时间同步"></a>7) 模板机优化配置——时间同步</h3><pre><code>下载软件
+yum install -y ntpdate   
+echo &#39;#time sync by lidao at 2020-12-03&#39; &gt;&gt;/var/spool/cron/root  添加注释
+echo &#39;*/5 * * * * /usr/sbin/ntpdate ntp1.aliyun.com &gt;/dev/null 2&gt;&amp;1&#39; &gt;&gt;/var/spool/cron/root 每隔五分钟同步一次
+crontab -l   查看</code></pre>
+<h3 id="8-模板机优化配置——加大文件描述"><a href="#8-模板机优化配置——加大文件描述" class="headerlink" title="8) 模板机优化配置——加大文件描述"></a>8) 模板机优化配置——加大文件描述</h3><pre><code>yum install -y lsoflsof -i:22   
+echo &#39;*             -           nofile            1024&#39; &gt;&gt;/etc/security/limits.conf 
+source /etc/security/limits.conf </code></pre>
 <p>说明：一个服务进程运行起来，会打开相应的文件</p>
-<h3 id="9-模板机优化配置——安装其他小软件"><a href="#9-模板机优化配置——安装其他小软件" class="headerlink" title="9) 模板机优化配置——安装其他小软件"></a>9) 模板机优化配置——安装其他小软件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install lrzsz nmap tree dos2unix nc telnet bash-completion bash-completion-extras -y</span><br></pre></td></tr></table></figure>
+<h3 id="9-模板机优化配置——安装其他小软件"><a href="#9-模板机优化配置——安装其他小软件" class="headerlink" title="9) 模板机优化配置——安装其他小软件"></a>9) 模板机优化配置——安装其他小软件</h3><pre><code>yum install lrzsz nmap tree dos2unix nc telnet bash-completion bash-completion-extras -y</code></pre>
 <p> 当然以上命令，也可以写成一个脚本，方法有很多，这里就不介绍了，可自行百度。</p>
  
       <!-- reward -->
@@ -366,6 +432,10 @@
 </section>
       <footer class="footer">
   <div class="outer">
+  <!-- 运行天数 -->
+	<ul>
+		<li><span id="runtime_span"></span></li>
+	</ul>
     <ul>
       <li>
         Copyrights &copy;
@@ -400,11 +470,29 @@
       <li>
         <!-- cnzz统计 -->
         
-        <script type="text/javascript" src='https://s4.cnzz.com/z_stat.php?id=1279548987&amp;web_id=1279548987'></script>
+       <!-- <script type="text/javascript" src='https://s4.cnzz.com/z_stat.php?id=1279548987&amp;web_id=1279548987'></script> -->
+	   <script type="text/javascript">			
+    function show_runtime() {
+        window.setTimeout("show_runtime()", 1000);
+        X = new Date("12/20/2020 19:40:05");
+        Y = new Date();
+        T = (Y.getTime() - X.getTime());
+        M = 24 * 60 * 60 * 1000;
+        a = T / M;
+        A = Math.floor(a);
+        b = (a - A) * 24;
+        B = Math.floor(b);
+        c = (b - B) * 60;
+        C = Math.floor((b - B) * 60);
+        D = Math.floor((c - C) * 60);
+        runtime_span.innerHTML = "小站在各种崩坏中坚持了: " + A + "天" + B + "小时" + C + "分" + D + "秒"
+    }
+	show_runtime();
+</script>
         
       </li>
     </ul>
-  </div>
+ </div>
 </footer>
       <div class="float_btns">
         <div class="totop" id="totop">
@@ -428,31 +516,73 @@
   <ul class="nav nav-main">
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/">主页</a>
+	<!-- 找到这里，添加代码 -->
+      <a class="nav-item-link" href="/">主页</a>	  
+			
+	<!-- 到这里结束 -->
+    <!-- <a class="nav-item-link" href="/%5Bobject%20Object%5D">主页</a> -->
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/archives">归档</a>
+	<!-- 找到这里，添加代码 -->
+      <a class="nav-item-link" href="/archives">归档</a>	  
+			
+			<ul class="sub-menu">
+			  
+				<li>
+				  <small><a class="nav-item-link" href="/categories">分类
+				  </a></small>
+				</li>
+			  
+				<li>
+				  <small><a class="nav-item-link" href="/tags">标签
+				  </a></small>
+				</li>
+			  
+			</ul>
+		  
+	<!-- 到这里结束 -->
+    <!-- <a class="nav-item-link" href="/%5Bobject%20Object%5D">归档</a> -->
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/categories">分类</a>
+	<!-- 找到这里，添加代码 -->
+      <a class="nav-item-link" href="/music">music</a>	  
+			
+	<!-- 到这里结束 -->
+    <!-- <a class="nav-item-link" href="/%5Bobject%20Object%5D">music</a> -->
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/tags">标签</a>
+	<!-- 找到这里，添加代码 -->
+      <a class="nav-item-link" href="/friends">友链</a>	  
+			
+	<!-- 到这里结束 -->
+    <!-- <a class="nav-item-link" href="/%5Bobject%20Object%5D">友链</a> -->
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/music">music</a>
+	<!-- 找到这里，添加代码 -->
+      <a class="nav-item-link" href="/about">关于我</a>	  
+			
+	<!-- 到这里结束 -->
+    <!-- <a class="nav-item-link" href="/%5Bobject%20Object%5D">关于我</a> -->
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/friends">友链</a>
+	<!-- 找到这里，添加代码 -->
+      <a class="nav-item-link" href="/shuoshuo">说说</a>	  
+			
+	<!-- 到这里结束 -->
+    <!-- <a class="nav-item-link" href="/%5Bobject%20Object%5D">说说</a> -->
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/about">关于我</a>
+	<!-- 找到这里，添加代码 -->
+      <a class="nav-item-link" href="/analytics">统计</a>	  
+			
+	<!-- 到这里结束 -->
+    <!-- <a class="nav-item-link" href="/%5Bobject%20Object%5D">统计</a> -->
     </li>
     
   </ul>
@@ -479,6 +609,40 @@
   <div id="local-search-result" class="local-search-result"></div>
 </div>
 </div>
+
+
+
+<!-- 二级导航CSS -->
+<style>
+.nav-main li ul{
+	display: none;
+}
+.nav-main li:hover ul{
+	display:block;
+}
+.sub-menu{
+    position: absolute;
+    background: #fff;
+    padding: 5px;
+    width: 8rem;
+    z-index:1000;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 1px 40px -8px rgba(0,0,0,.5);
+    -webkit-animation: fadeInUp .3s .1s ease both;
+    list-style:none;
+}
+.nav-main li ul::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    margin-left: -10px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent #fff transparent;
+}
+</style>
     </aside>
     <script>
       if (window.matchMedia("(max-width: 768px)").matches) {
