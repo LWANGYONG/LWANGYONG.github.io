@@ -4,7 +4,7 @@
   <url>
     <loc>https://blog-wangyong.xyz/about/index.html</loc>
     
-    <lastmod>2020-12-30</lastmod>
+    <lastmod>2020-12-31</lastmod>
     
   </url>
   
@@ -95,7 +95,7 @@
 
   <url>
     <loc>https://blog-wangyong.xyz/</loc>
-    <lastmod>2020-12-30</lastmod>
+    <lastmod>2020-12-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -103,28 +103,28 @@
   
   <url>
     <loc>https://blog-wangyong.xyz/tags/%E7%BD%91%E7%BB%9C/</loc>
-    <lastmod>2020-12-30</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog-wangyong.xyz/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/</loc>
-    <lastmod>2020-12-30</lastmod>
+    <lastmod>2020-12-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://blog-wangyong.xyz/tags/Hello-World/</loc>
-    <lastmod>2020-12-30</lastmod>
+    <lastmod>2020-12-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://blog-wangyong.xyz/tags/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84/</loc>
-    <lastmod>2020-12-30</lastmod>
+    <lastmod>2020-12-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog-wangyong.xyz/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/</loc>
+    <lastmod>2020-12-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -133,7 +133,7 @@
   
   <url>
     <loc>https://blog-wangyong.xyz/categories/%E4%B8%AA%E4%BA%BA/</loc>
-    <lastmod>2020-12-30</lastmod>
+    <lastmod>2020-12-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
