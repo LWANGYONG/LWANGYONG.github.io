@@ -18,6 +18,49 @@
       </tags>
   </entry>
   <entry>
+    <title>LINUX运维学习之综合架构篇——备份服务器搭建</title>
+    <url>/article/22885f4a.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="1、上期我们讲了环境搭建，这次我们搭建备份服务器"><a href="#1、上期我们讲了环境搭建，这次我们搭建备份服务器" class="headerlink" title="1、上期我们讲了环境搭建，这次我们搭建备份服务器"></a>1、上期我们讲了环境搭建，这次我们搭建备份服务器</h1><p>首先我们先克隆主机，这个我就不演示在VMware中克隆选择链接克隆（学习环境）,克隆好之后进行主机配置</p>
+<h2 id="a、修改主机名"><a href="#a、修改主机名" class="headerlink" title="a、修改主机名"></a>a、修改主机名</h2><p>hostnamectl set-hostname backup</p>
+<h2 id="b、修改IP地址"><a href="#b、修改IP地址" class="headerlink" title="b、修改IP地址"></a>b、修改IP地址</h2><p>grep 200 /etc/sysconfig/network-scripts/ifcfg-eth[01]     #先找出要修改的IP地址</p>
+<p>sed -i ‘s#200#41#g’ /etc/sysconfig/network-scripts/ifcfg-eth[01]      #然后修改两张网卡</p>
+<p>sed -i ‘/UUID/d’ /etc/sysconfig/network-scripts/ifcfg-eth[01]      #然后在删除UUID的信息</p>
+<p>PS: 服务器要一台一台的开启，进行修改，不要同时启动</p>
+<p>备份服务器的作用</p>
+<p>01、备份数据</p>
+<p>02、进行日志统一保存</p>
+<h1 id="2、如何部署搭建备份服务器：rsync服务"><a href="#2、如何部署搭建备份服务器：rsync服务" class="headerlink" title="2、如何部署搭建备份服务器：rsync服务"></a>2、如何部署搭建备份服务器：rsync服务</h1><h2 id="01、什么是rsync服务："><a href="#01、什么是rsync服务：" class="headerlink" title="01、什么是rsync服务："></a>01、什么是rsync服务：</h2><p>rsync是一款开源的、快速的、多功能的可实现的全量及增量的本地或者远程数据同步备份的优秀工具。</p>
+<p>a、本地备份的命令</p>
+<p>cp /etc/hosts   /etc/hosts.bak</p>
+<p>rsync /etc/hosts  /tmp/hosts_rsync</p>
+<p>b、 远程备份 scp</p>
+<p>远程备份的数据首先要有个备份目录</p>
+<p>在备份服务器创建一个backup的目录</p>
+<p>mkdir /backup</p>
+<p>scp -rp /etc/hosts  <a href="mailto:&#114;&#111;&#x6f;&#x74;&#x40;&#x31;&#55;&#x32;&#46;&#x31;&#54;&#x2e;&#x31;&#x2e;&#x34;&#x31;">&#114;&#111;&#x6f;&#x74;&#x40;&#x31;&#55;&#x32;&#46;&#x31;&#54;&#x2e;&#x31;&#x2e;&#x34;&#x31;</a>:/backup</p>
+<p>-r 递归复制传输数据</p>
+<p>-p 保持文件属性</p>
+<h2 id="02、rsync方式备份数据"><a href="#02、rsync方式备份数据" class="headerlink" title="02、rsync方式备份数据"></a>02、rsync方式备份数据</h2><p>先安装软件</p>
+<p>yum install -y rsync </p>
+<p>这里我把存储服务器先当作客户端，服务器名字为nfs01,其他修改和备份服务器一样,之前我在里面搞了一下东西，现在这个目录里是没有hosts_rsync文件的</p>
+<p><a href="https://cdn.jsdelivr.net/gh/LWANGYONG/cdn/img/1.png">https://cdn.jsdelivr.net/gh/LWANGYONG/cdn/img/1.png</a></p>
+<p>我们先查看一下备份服务器backup目录</p>
+<p>rsync -rp  /etc/hosts 172.16.1.41:/backup/hosts_rsync</p>
+<p><a href="https://cdn.jsdelivr.net/gh/LWANGYONG/cdn/img/2.png">https://cdn.jsdelivr.net/gh/LWANGYONG/cdn/img/2.png</a></p>
+<p>此时备份服务器就已经有了</p>
+<p><a href="https://cdn.jsdelivr.net/gh/LWANGYONG/cdn/img/3.png">https://cdn.jsdelivr.net/gh/LWANGYONG/cdn/img/3.png</a></p>
+<p>总结：用rsync备份目录时：</p>
+<p>备份目录后面有 /            只讲目录下面的内容备份</p>
+<p>备份目录时后面没有  /   只备份目录</p>
+<h1 id="2、守护进程方式备份数据"><a href="#2、守护进程方式备份数据" class="headerlink" title="2、守护进程方式备份数据"></a>2、守护进程方式备份数据</h1><p>01、可以进行一些备注管理</p>
+<p>02、可以进行安全策略管理</p>
+<p>03、可以实现自动传输备份数据</p>
+]]></content>
+      <tags>
+        <tag>综合架构</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LINUX运维学习之综合架构篇——架构搭建准备</title>
     <url>/article/f439b05e.html</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="1、综合架构组成说明"><a href="#1、综合架构组成说明" class="headerlink" title="1、综合架构组成说明"></a>1、综合架构组成说明</h1><p>用户访问网站是使用HTTP协议80端口，查看80端口是否开启</p>
