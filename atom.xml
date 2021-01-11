@@ -6,7 +6,7 @@
   <link href="https://blog-wangyong.xyz/atom.xml" rel="self"/>
   
   <link href="https://blog-wangyong.xyz/"/>
-  <updated>2021-01-09T14:59:39.050Z</updated>
+  <updated>2021-01-11T13:37:23.447Z</updated>
   <id>https://blog-wangyong.xyz/</id>
   
   <author>
@@ -15,6 +15,50 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>全网备份脚本</title>
+    <link href="https://blog-wangyong.xyz/article/86760658.html"/>
+    <id>https://blog-wangyong.xyz/article/86760658.html</id>
+    <published>2021-01-11T13:05:21.141Z</published>
+    <updated>2021-01-11T13:37:23.447Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="1、客户端脚本"><a href="#1、客户端脚本" class="headerlink" title="1、客户端脚本"></a>1、客户端脚本</h1><p>这里我拿nfs服务器充当客户端</p><pre><code>#/bin/bashBackup_dir=&quot;/backup&quot;IP_info=$(hostname -i)#cerate backup dirmkdir -p $Backup_dir/$IP_info#tar backup datacd /tar zchf $Backup_dir/$IP_info/system_backup_$(date +%F_week%w).tar.gz ./var/spool/cron/root ./etc/rc.local ./server/scripts ./etc/sysconfig/iptables#del 7 day ago datafind $Backup_dir/ -type f -mtime +7|xargs rm 2&gt;/dev/null#create finger filefind $Backup_dir/ -type f -mtime -1 ! -name &quot;finger*&quot;|xargs md5sum &gt;$Backup_dir/$Ip_info/finger.txt#backup push data inforsync -az $Backup_dir/ rsync_backup@172.16.1.41::backup --password-file=/etc/rsync.password</code></pre><p><img src="https://cdn.jsdelivr.net/gh/LWANGYONG/cdn/img/image-20210111211641737.png" alt="image-20210111211641737"></p><h1 id="2、web服务器脚本"><a href="#2、web服务器脚本" class="headerlink" title="2、web服务器脚本"></a>2、web服务器脚本</h1><pre><code>#/bin/bashBackup_dir=&quot;/backup&quot;IP_info=$(hostname -i)#cerate backup dirmkdir -p $Backup_dir/$IP_info#tar backup datacd /tar zchf $Backup_dir/$IP_info/system_backup_$(date +%F_week%w).tar.gz ./var/spool/cron/root ./etc/rc.local ./server/scripts ./etc/sysconfig/iptables#tar zchf $Backup_dir/$IP_info/www_backup_$(data +%F_week%w).tar.gz ./var/html/www#tar zchf $Backup_dir/$IP_info/www_log_backup_$(data +%F_week%w).tar.gz ./app/logstar zchf $Backup_dir/$IP_info/www_backup_$(date +%F_week%w).tar.gz  ./var/html/wwwtar zchf $Backup_dir/$IP_info/www_log_backup_$(date +%F_week%w).tar.gz  ./app/logs#del 7 day ago datafind $Backup_dir/ -type f -mtime +7|xargs rm 2&gt;/dev/null#create finger filefind $Backup_dir/ -type f -mtime -1 ! -name &quot;finger*&quot;|xargs md5sum &gt;$Backup_dir/$Ip_info/finger.txt#backup push data info#rsync -az $Backup_dir/ rsync_backup@172.16.1.41::backup --password-file=/etc/rsync.passwordrsync -az $Backup_dir/ rsync_backup@172.16.1.41::backup --password-file=/etc/rsync.password</code></pre><p><img src="https://cdn.jsdelivr.net/gh/LWANGYONG/cdn/img/image-20210111212112634.png" alt="image-20210111212112634"></p><h1 id="3、备份服务器脚本"><a href="#3、备份服务器脚本" class="headerlink" title="3、备份服务器脚本"></a>3、备份服务器脚本</h1><pre><code>#del 180 day ago datafind /backup/ -type f -mtime +180 ! -name &quot;week1.tar.gz&quot;|xargs rm 2 &gt;/dev/null#check backup datafind /backup/ -type f -name &quot;fingex.txt&quot;|xargs md5sum -c &gt;/tmp/check.txt#sed check mailmail -s &quot;check info $(date +%F)&quot; 3285884651@qq.com &lt;/tmp/check.txt</code></pre><p><img src="https://cdn.jsdelivr.net/gh/LWANGYONG/cdn/img/image-20210111212325042.png" alt="image-20210111212325042"></p><h1 id="4、实现自动完成全网数据备份（定时任务）"><a href="#4、实现自动完成全网数据备份（定时任务）" class="headerlink" title="4、实现自动完成全网数据备份（定时任务）"></a>4、实现自动完成全网数据备份（定时任务）</h1><pre><code>客户端定时任务:crontab -e # backup data0 0 * * *  /bin/sh /server/scripts/backup.sh &amp;&gt;/dev/null服务端定时任务# check backup data0 5 * * *  /bin/sh /server/scripts/backup_server.sh &amp;&gt;/dev/null</code></pre><p>当然这些还是有完善的地方</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    
+    <category term="知识点" scheme="https://blog-wangyong.xyz/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>备份服务器项目需求</title>
+    <link href="https://blog-wangyong.xyz/article/87041637.html"/>
+    <id>https://blog-wangyong.xyz/article/87041637.html</id>
+    <published>2021-01-08T15:07:31.000Z</published>
+    <updated>2021-01-11T13:37:30.219Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="1、备份项目需求"><a href="#1、备份项目需求" class="headerlink" title="1、备份项目需求"></a>1、备份项目需求</h1><h2 id="（1）所有的服务器备份目录统一（-backup）"><a href="#（1）所有的服务器备份目录统一（-backup）" class="headerlink" title="（1）所有的服务器备份目录统一（/backup）"></a>（1）所有的服务器备份目录统一（/backup）</h2><pre><code>mkdir  /backup</code></pre><h2 id="（2）要备份的系统配置文件包括但不限于："><a href="#（2）要备份的系统配置文件包括但不限于：" class="headerlink" title="（2）要备份的系统配置文件包括但不限于："></a>（2）要备份的系统配置文件包括但不限于：</h2><p>​        a、定时任务的配置文件（/var/spool/cron/root）（适用于web和nfs服务器）</p><p>​        b、开机自启动的配置文件（/etc/rc.local）（适用于web和nfs服务器）</p><p>​        c、日常脚本目录（/server/scripts）</p><p>​        d、防火墙iptables的配置文件（/etc/sysconfig/iptables）</p><p>​        e、等等</p><pre><code>tar zcvhf /backup/system_back.tar.gz  /var/spool/cron/root  /etc/rc.local  /server/scripts  /etc/sysconfig/iptables</code></pre><p>-h  将链接文件指向的源文件备份</p><p>PS：最好用相对路径进行备份</p><pre><code>cd  /tar zcvhf /backup/system_back.tar.gz  ./var/spool/cron/root  ./etc/rc.local  ./server/scripts  ./etc/sysconfig/iptables</code></pre><h2 id="（3）web服务器站点目录假定为（-var-html-www）"><a href="#（3）web服务器站点目录假定为（-var-html-www）" class="headerlink" title="（3）web服务器站点目录假定为（/var/html/www）"></a>（3）web服务器站点目录假定为（/var/html/www）</h2><pre><code>tar zcvhf /backup/www_back.tar.gz  ./var/html/www</code></pre><h2 id="（4）web服务器A访问日志路径假定为（-app-logs）"><a href="#（4）web服务器A访问日志路径假定为（-app-logs）" class="headerlink" title="（4）web服务器A访问日志路径假定为（/app/logs）"></a>（4）web服务器A访问日志路径假定为（/app/logs）</h2><pre><code>tar zcvhf /backup/www_log_back.tar.gz  ./app/logs</code></pre><h2 id="（5）web服务器保留打包后七天的备份数据即可（本地留存7天即可，太多硬盘会满）"><a href="#（5）web服务器保留打包后七天的备份数据即可（本地留存7天即可，太多硬盘会满）" class="headerlink" title="（5）web服务器保留打包后七天的备份数据即可（本地留存7天即可，太多硬盘会满）"></a>（5）web服务器保留打包后七天的备份数据即可（本地留存7天即可，太多硬盘会满）</h2><pre><code>tar zchf /backup/system_backup_$(date +%F).tar.gz ./var/spool/cron/root ./etc/rc.local ./server/scripts ./etc/sysconfig/iptablesfind /backup -type f -mtime +7|xargs rm </code></pre><h2 id="（6）备份服务器上，保留每一周的所有数据副本，其他要保留6个月的数据副本"><a href="#（6）备份服务器上，保留每一周的所有数据副本，其他要保留6个月的数据副本" class="headerlink" title="（6）备份服务器上，保留每一周的所有数据副本，其他要保留6个月的数据副本"></a>（6）备份服务器上，保留每一周的所有数据副本，其他要保留6个月的数据副本</h2><pre><code>tar zchf /backup/www_backup_$(date +%F_week%w).tar.gz  ./var/html/wwwtar zchf /backup/www_log_backup_$(date +%F_week%w).tar.gz  ./app/logsfind /backup -type f -mtime +180!-name &quot;*week1.tar.gz&quot;|xargs rm </code></pre><h1 id="2、如何验证数据完整性"><a href="#2、如何验证数据完整性" class="headerlink" title="2、如何验证数据完整性"></a>2、如何验证数据完整性</h1><p>​         利用md5算法进行验证数据完整性<br>​         md5sum -c 指纹文件命令执行原理<br>​         第一个历程: 打开一个指纹文件,将信息记录到缓存中<br>​         第二个历程: 根据指纹文件的路径信息,生成md5数值信息<br>​         第三个历程: 将新生成md5数值和原有指纹文件中的数值进行比较<br>​         第四个历程: 如果相同显示结果为ok,如果不同显示failed</p><pre><code>find /backup/  -type f -mtime -1 ! -name &quot;finger*&quot; |xargs md5sum &gt;/backup/10.0.0.31/finger.txtrsync -avz /backup/rsync_backup@172.16.1.41::backup --password-file=/etc/rsync.password   md5sum -c /backup/10.0.0.31/finger.txt  #检查</code></pre><h1 id="3、如何实现发送邮件"><a href="#3、如何实现发送邮件" class="headerlink" title="3、如何实现发送邮件"></a>3、如何实现发送邮件</h1><h2 id="a、配置163企业邮箱"><a href="#a、配置163企业邮箱" class="headerlink" title="a、配置163企业邮箱"></a>a、配置163企业邮箱</h2><p>注册后邮箱打开设置 以下配置</p><p><img src="https://cdn.jsdelivr.net/gh/LWANGYONG/cdn/img/image-20210111210145989.png" alt="image-20210111210145989"></p><h2 id="b、编写linux服务邮件相关配置文件"><a href="#b、编写linux服务邮件相关配置文件" class="headerlink" title="b、编写linux服务邮件相关配置文件"></a>b、编写linux服务邮件相关配置文件</h2><pre><code>vim /etc/mail.rcset from=xxxx@163.com smtp=smtp.163.com                 set smtp-auth-user=xxxx@163.com smtp-auth-password=授权密码 smtp-auth=loginsystemctl restart postfix.service</code></pre><h1 id="c、-发送邮件测试"><a href="#c、-发送邮件测试" class="headerlink" title="c、 发送邮件测试"></a>c、 发送邮件测试</h1><pre><code>echo &quot;邮件发送测试&quot;|mail -s &quot;邮件测试&quot; xxxx@qq.commail -s &quot;邮件测试&quot; xxxxx@qq.com &lt;/etc/hosts </code></pre><p>配置完成</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    
+    <category term="企业中的应用" scheme="https://blog-wangyong.xyz/tags/%E4%BC%81%E4%B8%9A%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/"/>
+    
+  </entry>
   
   <entry>
     <title>LINUX运维学习之综合架构篇——备份服务器搭建</title>
