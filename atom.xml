@@ -6,7 +6,7 @@
   <link href="https://blog-wangyong.xyz/atom.xml" rel="self"/>
   
   <link href="https://blog-wangyong.xyz/"/>
-  <updated>2021-01-11T13:37:23.447Z</updated>
+  <updated>2021-01-11T14:19:56.137Z</updated>
   <id>https://blog-wangyong.xyz/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>把自己的网站作应用安装在浏览器中</title>
+    <link href="https://blog-wangyong.xyz/article/ab1a0d15.html"/>
+    <id>https://blog-wangyong.xyz/article/ab1a0d15.html</id>
+    <published>2021-01-11T13:53:17.498Z</published>
+    <updated>2021-01-11T14:19:56.137Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>我们每次写博客后都要打开浏览器看一下，是否有问题，而且每次都要在浏览器中输入域名，我感觉每次都有点麻烦，如果把网站搞成一个软件，放在桌面就不用每次都要打开浏览器了，当然你也可以在桌面放了链接，但是感觉逼格不够，（用代码写的话又多此一举）。今天我告诉你们一个简单的方法。</p><p>首先我们打开Microsoft Edge，如下图</p><p><img src="https://cdn.jsdelivr.net/gh/LWANGYONG/cdn/img/image-20210111220203072.png" alt="image-20210111220203072"></p><p>安装好之后</p><p><img src="https://cdn.jsdelivr.net/gh/LWANGYONG/cdn@master/img/image-20210111221234518.png" alt="image-20210111221234518"></p><p>我们再打开应用</p><p><img src="https://cdn.jsdelivr.net/gh/LWANGYONG/cdn/img/image-20210111221744419.png" alt="image-20210111221744419"></p><p>然后右键固定到桌面</p><p><img src="https://cdn.jsdelivr.net/gh/LWANGYONG/cdn/img/image-20210111221848702.png" alt="image-20210111221848702"></p><p><img src="https://cdn.jsdelivr.net/gh/LWANGYONG/cdn/img/image-20210111221935829.png" alt="image-20210111221935829"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    <category term="个人" scheme="https://blog-wangyong.xyz/categories/%E4%B8%AA%E4%BA%BA/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>全网备份脚本</title>
@@ -35,6 +57,28 @@
     
     
     <category term="知识点" scheme="https://blog-wangyong.xyz/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>守护进程服务在企业应用</title>
+    <link href="https://blog-wangyong.xyz/article/22885f4a.html"/>
+    <id>https://blog-wangyong.xyz/article/22885f4a.html</id>
+    <published>2021-01-08T15:07:31.000Z</published>
+    <updated>2021-01-09T15:01:31.248Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="1、守护进程多模块功能配置"><a href="#1、守护进程多模块功能配置" class="headerlink" title="1、守护进程多模块功能配置"></a>1、守护进程多模块功能配置</h1><pre><code>sa sa_data.txtdev dev_data.txtdba dba_data.txtvim /etc/rsync.conf#添加以下信息[backup]comment = &quot;backup dir by oldboy&quot;path = /backup[dba]comment = &quot;backup dir by oldboy&quot;path = /dba[dev]comment = &quot;backup dir by oldboy&quot;path = /devdata</code></pre><h1 id="2、守护进程的排除环境"><a href="#2、守护进程的排除环境" class="headerlink" title="2、守护进程的排除环境"></a>2、守护进程的排除环境</h1><pre><code>[root@nfs01 /]# mkdir -p /oldboy[root@nfs01 /]# mkdir -p /oldboy/&#123;a..c&#125;[root@nfs01 /]# touch /oldboy/&#123;a..c&#125;/&#123;1..3&#125;.txt[root@nfs01 /]# tree /oldboy/oldboy├── 01.txt├── 02.txt├── a│?? ├── 1.txt│?? ├── 2.txt│?? └── 3.txt├── b│?? ├── 1.txt│?? ├── 2.txt│?? └── 3.txt└── c    ├── 1.txt    ├── 2.txt    └── 3.txt</code></pre><h2 id="01、-需求01-将-oldboy目录下面-a目录数据全部备份-b目录不要备份1-txt文件-c整个目录不要做备份"><a href="#01、-需求01-将-oldboy目录下面-a目录数据全部备份-b目录不要备份1-txt文件-c整个目录不要做备份" class="headerlink" title="01、 需求01: 将/oldboy目录下面 a目录数据全部备份 b目录不要备份1.txt文件 c整个目录不要做备份"></a>01、 需求01: 将/oldboy目录下面 a目录数据全部备份 b目录不要备份1.txt文件 c整个目录不要做备份</h2><pre><code>--exclude=PATTERN绝对路径方式:[root@nfs01 /]# rsync -avz /oldboy --exclude=/oldboy/b/1.txt --exclude=/oldboy/c/rsync_backup@172.16.1.41::backup --password-file=/etc/rsync.password sending incremental file listoldboy/oldboy/01.txtoldboy/02.txtoldboy/a/oldboy/a/1.txtoldboy/a/2.txtoldboy/a/3.txtoldboy/b/oldboy/b/2.txtoldboy/b/3.txt相对路径方式:[root@nfs01 /]# rsync -avz /oldboy --exclude=b/1.txt --exclude=c/ rsync_backup@172.16.1.41::backup --password-file=/etc/rsync.password sending incremental file listoldboy/oldboy/01.txtoldboy/02.txtoldboy/a/oldboy/a/1.txtoldboy/a/2.txtoldboy/a/3.txtoldboy/b/oldboy/b/2.txtoldboy/b/3.txt</code></pre><p>​<br>    sent 502 bytes  received 177 bytes  1,358.00 bytes/sec<br>    total size is 0  speedup is 0.00</p><h2 id="02、将-oldboy目录下面-a目录数据全部备份-b目录不要备份1-txt文件-c整个目录1-txt-3-txt文件不要备份"><a href="#02、将-oldboy目录下面-a目录数据全部备份-b目录不要备份1-txt文件-c整个目录1-txt-3-txt文件不要备份" class="headerlink" title="02、将/oldboy目录下面 a目录数据全部备份 b目录不要备份1.txt文件 c整个目录1.txt 3.txt文件不要备份"></a>02、将/oldboy目录下面 a目录数据全部备份 b目录不要备份1.txt文件 c整个目录1.txt 3.txt文件不要备份</h2><pre><code>--exclude-from=file  --- 批量排除 第一个历程: 编辑好一个排除文件[root@nfs01 /]# cat /oldboy/exclude.txt b/1.txtc/1.txtc/3.txtexclude.txt第二个历程: 实现批量排除功能[root@nfs01 /]# rsync -avz /oldboy --exclude-from=/oldboy/exclude.txt rsync_backup@172.16.1.41::backup --password-file=/etc/rsync.password sending incremental file listoldboy/oldboy/01.txtoldboy/02.txtoldboy/a/oldboy/a/1.txtoldboy/a/2.txtoldboy/a/3.txtoldboy/b/oldboy/b/2.txtoldboy/b/3.txtoldboy/c/oldboy/c/2.txt</code></pre><h2 id="03、守护进程来创建备份目录"><a href="#03、守护进程来创建备份目录" class="headerlink" title="03、守护进程来创建备份目录"></a>03、守护进程来创建备份目录</h2><pre><code>[root@nfs01 /]# rsync -avz /etc/hosts  rsync_backup@172.16.1.41::backup/10.0.0.31/ --password-file=/etc/rsync.password sending incremental file listcreated directory 10.0.0.31hostssent 226 bytes  received 75 bytes  602.00 bytes/sectotal size is 371  speedup is 1.23PS: 客户端无法在服务端创建多级目录</code></pre><h1 id="3、-守护进程的访问控制配置"><a href="#3、-守护进程的访问控制配置" class="headerlink" title="3、 守护进程的访问控制配置"></a>3、 守护进程的访问控制配置</h1><p>守护进程白名单和黑名单功能<br>PS: 建议只使用一种名单</p><pre><code>守护进程的列表功能配置[root@nfs01 /]# rsync rsync_backup@172.16.1.41::backup             &quot;backup dir by oldboy&quot;dba                &quot;backup dir by oldboy&quot;dev                &quot;backup dir by oldboy&quot;</code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    
+    <category term="企业中的应用" scheme="https://blog-wangyong.xyz/tags/%E4%BC%81%E4%B8%9A%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/"/>
     
   </entry>
   
@@ -79,28 +123,6 @@
     
     
     <category term="综合架构" scheme="https://blog-wangyong.xyz/tags/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>守护进程服务在企业应用</title>
-    <link href="https://blog-wangyong.xyz/article/22885f4a.html"/>
-    <id>https://blog-wangyong.xyz/article/22885f4a.html</id>
-    <published>2021-01-08T15:07:31.000Z</published>
-    <updated>2021-01-09T15:01:31.248Z</updated>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="1、守护进程多模块功能配置"><a href="#1、守护进程多模块功能配置" class="headerlink" title="1、守护进程多模块功能配置"></a>1、守护进程多模块功能配置</h1><pre><code>sa sa_data.txtdev dev_data.txtdba dba_data.txtvim /etc/rsync.conf#添加以下信息[backup]comment = &quot;backup dir by oldboy&quot;path = /backup[dba]comment = &quot;backup dir by oldboy&quot;path = /dba[dev]comment = &quot;backup dir by oldboy&quot;path = /devdata</code></pre><h1 id="2、守护进程的排除环境"><a href="#2、守护进程的排除环境" class="headerlink" title="2、守护进程的排除环境"></a>2、守护进程的排除环境</h1><pre><code>[root@nfs01 /]# mkdir -p /oldboy[root@nfs01 /]# mkdir -p /oldboy/&#123;a..c&#125;[root@nfs01 /]# touch /oldboy/&#123;a..c&#125;/&#123;1..3&#125;.txt[root@nfs01 /]# tree /oldboy/oldboy├── 01.txt├── 02.txt├── a│?? ├── 1.txt│?? ├── 2.txt│?? └── 3.txt├── b│?? ├── 1.txt│?? ├── 2.txt│?? └── 3.txt└── c    ├── 1.txt    ├── 2.txt    └── 3.txt</code></pre><h2 id="01、-需求01-将-oldboy目录下面-a目录数据全部备份-b目录不要备份1-txt文件-c整个目录不要做备份"><a href="#01、-需求01-将-oldboy目录下面-a目录数据全部备份-b目录不要备份1-txt文件-c整个目录不要做备份" class="headerlink" title="01、 需求01: 将/oldboy目录下面 a目录数据全部备份 b目录不要备份1.txt文件 c整个目录不要做备份"></a>01、 需求01: 将/oldboy目录下面 a目录数据全部备份 b目录不要备份1.txt文件 c整个目录不要做备份</h2><pre><code>--exclude=PATTERN绝对路径方式:[root@nfs01 /]# rsync -avz /oldboy --exclude=/oldboy/b/1.txt --exclude=/oldboy/c/rsync_backup@172.16.1.41::backup --password-file=/etc/rsync.password sending incremental file listoldboy/oldboy/01.txtoldboy/02.txtoldboy/a/oldboy/a/1.txtoldboy/a/2.txtoldboy/a/3.txtoldboy/b/oldboy/b/2.txtoldboy/b/3.txt相对路径方式:[root@nfs01 /]# rsync -avz /oldboy --exclude=b/1.txt --exclude=c/ rsync_backup@172.16.1.41::backup --password-file=/etc/rsync.password sending incremental file listoldboy/oldboy/01.txtoldboy/02.txtoldboy/a/oldboy/a/1.txtoldboy/a/2.txtoldboy/a/3.txtoldboy/b/oldboy/b/2.txtoldboy/b/3.txt</code></pre><p>​<br>    sent 502 bytes  received 177 bytes  1,358.00 bytes/sec<br>    total size is 0  speedup is 0.00</p><h2 id="02、将-oldboy目录下面-a目录数据全部备份-b目录不要备份1-txt文件-c整个目录1-txt-3-txt文件不要备份"><a href="#02、将-oldboy目录下面-a目录数据全部备份-b目录不要备份1-txt文件-c整个目录1-txt-3-txt文件不要备份" class="headerlink" title="02、将/oldboy目录下面 a目录数据全部备份 b目录不要备份1.txt文件 c整个目录1.txt 3.txt文件不要备份"></a>02、将/oldboy目录下面 a目录数据全部备份 b目录不要备份1.txt文件 c整个目录1.txt 3.txt文件不要备份</h2><pre><code>--exclude-from=file  --- 批量排除 第一个历程: 编辑好一个排除文件[root@nfs01 /]# cat /oldboy/exclude.txt b/1.txtc/1.txtc/3.txtexclude.txt第二个历程: 实现批量排除功能[root@nfs01 /]# rsync -avz /oldboy --exclude-from=/oldboy/exclude.txt rsync_backup@172.16.1.41::backup --password-file=/etc/rsync.password sending incremental file listoldboy/oldboy/01.txtoldboy/02.txtoldboy/a/oldboy/a/1.txtoldboy/a/2.txtoldboy/a/3.txtoldboy/b/oldboy/b/2.txtoldboy/b/3.txtoldboy/c/oldboy/c/2.txt</code></pre><h2 id="03、守护进程来创建备份目录"><a href="#03、守护进程来创建备份目录" class="headerlink" title="03、守护进程来创建备份目录"></a>03、守护进程来创建备份目录</h2><pre><code>[root@nfs01 /]# rsync -avz /etc/hosts  rsync_backup@172.16.1.41::backup/10.0.0.31/ --password-file=/etc/rsync.password sending incremental file listcreated directory 10.0.0.31hostssent 226 bytes  received 75 bytes  602.00 bytes/sectotal size is 371  speedup is 1.23PS: 客户端无法在服务端创建多级目录</code></pre><h1 id="3、-守护进程的访问控制配置"><a href="#3、-守护进程的访问控制配置" class="headerlink" title="3、 守护进程的访问控制配置"></a>3、 守护进程的访问控制配置</h1><p>守护进程白名单和黑名单功能<br>PS: 建议只使用一种名单</p><pre><code>守护进程的列表功能配置[root@nfs01 /]# rsync rsync_backup@172.16.1.41::backup             &quot;backup dir by oldboy&quot;dba                &quot;backup dir by oldboy&quot;dev                &quot;backup dir by oldboy&quot;</code></pre>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla</summary>
-      
-    
-    
-    
-    
-    <category term="企业中的应用" scheme="https://blog-wangyong.xyz/tags/%E4%BC%81%E4%B8%9A%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/"/>
     
   </entry>
   

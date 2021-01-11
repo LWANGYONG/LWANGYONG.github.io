@@ -34,7 +34,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    守护进程服务在企业应用 |  小白同学的博客
+    LINUX运维学习之综合架构篇——备份服务器搭建 |  小白同学的博客
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -80,7 +80,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-守护进程服务在企业应用"
+  id="post-备份服务器搭建"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -91,7 +91,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  守护进程服务在企业应用
+  LINUX运维学习之综合架构篇——备份服务器搭建
 </h1>
  
 
@@ -106,7 +106,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">622</span>
+            <span class="post-count">1.3k</span>
         </span>
     </span>
 
@@ -115,7 +115,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">3 分钟</span>
+            <span class="post-count">5 分钟</span>
         </span>
     </span>
 </div>
@@ -130,102 +130,133 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="1、守护进程多模块功能配置"><a href="#1、守护进程多模块功能配置" class="headerlink" title="1、守护进程多模块功能配置"></a>1、守护进程多模块功能配置</h1><pre><code>sa sa_data.txt
-dev dev_data.txt
-dba dba_data.txt
-vim /etc/rsync.conf
-#添加以下信息
-[backup]
-comment = &quot;backup dir by oldboy&quot;
-path = /backup
-[dba]
-comment = &quot;backup dir by oldboy&quot;
-path = /dba
-[dev]
-comment = &quot;backup dir by oldboy&quot;
-path = /devdata</code></pre>
-<h1 id="2、守护进程的排除环境"><a href="#2、守护进程的排除环境" class="headerlink" title="2、守护进程的排除环境"></a>2、守护进程的排除环境</h1><pre><code>[root@nfs01 /]# mkdir -p /oldboy
-[root@nfs01 /]# mkdir -p /oldboy/&#123;a..c&#125;
-[root@nfs01 /]# touch /oldboy/&#123;a..c&#125;/&#123;1..3&#125;.txt
-[root@nfs01 /]# tree /oldboy
-/oldboy
-├── 01.txt
-├── 02.txt
-├── a
-│?? ├── 1.txt
-│?? ├── 2.txt
-│?? └── 3.txt
-├── b
-│?? ├── 1.txt
-│?? ├── 2.txt
-│?? └── 3.txt
-└── c
-    ├── 1.txt
-    ├── 2.txt
-    └── 3.txt</code></pre>
-<h2 id="01、-需求01-将-oldboy目录下面-a目录数据全部备份-b目录不要备份1-txt文件-c整个目录不要做备份"><a href="#01、-需求01-将-oldboy目录下面-a目录数据全部备份-b目录不要备份1-txt文件-c整个目录不要做备份" class="headerlink" title="01、 需求01: 将/oldboy目录下面 a目录数据全部备份 b目录不要备份1.txt文件 c整个目录不要做备份"></a>01、 需求01: 将/oldboy目录下面 a目录数据全部备份 b目录不要备份1.txt文件 c整个目录不要做备份</h2><pre><code>--exclude=PATTERN
-绝对路径方式:
-[root@nfs01 /]# rsync -avz /oldboy --exclude=/oldboy/b/1.txt --exclude=/oldboy/c/rsync_backup@172.16.1.41::backup --password-file=/etc/rsync.password 
-sending incremental file list
-oldboy/
-oldboy/01.txt
-oldboy/02.txt
-oldboy/a/
-oldboy/a/1.txt
-oldboy/a/2.txt
-oldboy/a/3.txt
-oldboy/b/
-oldboy/b/2.txt
-oldboy/b/3.txt
-相对路径方式:
-[root@nfs01 /]# rsync -avz /oldboy --exclude=b/1.txt --exclude=c/ rsync_backup@172.16.1.41::backup --password-file=/etc/rsync.password 
-sending incremental file list
-oldboy/
-oldboy/01.txt
-oldboy/02.txt
-oldboy/a/
-oldboy/a/1.txt
-oldboy/a/2.txt
-oldboy/a/3.txt
-oldboy/b/
-oldboy/b/2.txt
-oldboy/b/3.txt</code></pre>
-<p>​<br>    sent 502 bytes  received 177 bytes  1,358.00 bytes/sec<br>    total size is 0  speedup is 0.00</p>
-<h2 id="02、将-oldboy目录下面-a目录数据全部备份-b目录不要备份1-txt文件-c整个目录1-txt-3-txt文件不要备份"><a href="#02、将-oldboy目录下面-a目录数据全部备份-b目录不要备份1-txt文件-c整个目录1-txt-3-txt文件不要备份" class="headerlink" title="02、将/oldboy目录下面 a目录数据全部备份 b目录不要备份1.txt文件 c整个目录1.txt 3.txt文件不要备份"></a>02、将/oldboy目录下面 a目录数据全部备份 b目录不要备份1.txt文件 c整个目录1.txt 3.txt文件不要备份</h2><pre><code>--exclude-from=file  --- 批量排除 
-第一个历程: 编辑好一个排除文件
-[root@nfs01 /]# cat /oldboy/exclude.txt 
-b/1.txt
-c/1.txt
-c/3.txt
-exclude.txt
-第二个历程: 实现批量排除功能
-[root@nfs01 /]# rsync -avz /oldboy --exclude-from=/oldboy/exclude.txt rsync_backup@172.16.1.41::backup --password-file=/etc/rsync.password 
-sending incremental file list
-oldboy/
-oldboy/01.txt
-oldboy/02.txt
-oldboy/a/
-oldboy/a/1.txt
-oldboy/a/2.txt
-oldboy/a/3.txt
-oldboy/b/
-oldboy/b/2.txt
-oldboy/b/3.txt
-oldboy/c/
-oldboy/c/2.txt</code></pre>
-<h2 id="03、守护进程来创建备份目录"><a href="#03、守护进程来创建备份目录" class="headerlink" title="03、守护进程来创建备份目录"></a>03、守护进程来创建备份目录</h2><pre><code>[root@nfs01 /]# rsync -avz /etc/hosts  rsync_backup@172.16.1.41::backup/10.0.0.31/ --password-file=/etc/rsync.password 
-sending incremental file list
-created directory 10.0.0.31
-hosts
-sent 226 bytes  received 75 bytes  602.00 bytes/sec
-total size is 371  speedup is 1.23
-PS: 客户端无法在服务端创建多级目录</code></pre>
-<h1 id="3、-守护进程的访问控制配置"><a href="#3、-守护进程的访问控制配置" class="headerlink" title="3、 守护进程的访问控制配置"></a>3、 守护进程的访问控制配置</h1><p>守护进程白名单和黑名单功能<br>PS: 建议只使用一种名单</p>
-<pre><code>守护进程的列表功能配置
-[root@nfs01 /]# rsync rsync_backup@172.16.1.41::
-backup             &quot;backup dir by oldboy&quot;
-dba                &quot;backup dir by oldboy&quot;
-dev                &quot;backup dir by oldboy&quot;</code></pre>
+  <h1 id="1、上期我们讲了环境搭建，这次我们搭建备份服务器"><a href="#1、上期我们讲了环境搭建，这次我们搭建备份服务器" class="headerlink" title="1、上期我们讲了环境搭建，这次我们搭建备份服务器"></a>1、上期我们讲了环境搭建，这次我们搭建备份服务器</h1><p>首先我们先克隆主机，这个我就不演示在VMware中克隆选择链接克隆（学习环境）,克隆好之后进行主机配置</p>
+<h2 id="a、修改主机名"><a href="#a、修改主机名" class="headerlink" title="a、修改主机名"></a>a、修改主机名</h2><pre><code>hostnamectl set-hostname backup</code></pre>
+<h2 id="b、修改IP地址"><a href="#b、修改IP地址" class="headerlink" title="b、修改IP地址"></a>b、修改IP地址</h2><pre><code>grep 200 /etc/sysconfig/network-scripts/ifcfg-eth[01]     #先找出要修改的IP地址
+
+sed -i &#39;s#200#41#g&#39; /etc/sysconfig/network-scripts/ifcfg-eth[01]      #然后修改两张网卡
+
+sed -i &#39;/UUID/d&#39; /etc/sysconfig/network-scripts/ifcfg-eth[01]      #然后在删除UUID的信息</code></pre>
+<p>PS: 服务器要一台一台的开启，进行修改，不要同时启动</p>
+<p>备份服务器的作用</p>
+<p>01、备份数据</p>
+<p>02、进行日志统一保存</p>
+<h1 id="2、如何部署搭建备份服务器：rsync服务"><a href="#2、如何部署搭建备份服务器：rsync服务" class="headerlink" title="2、如何部署搭建备份服务器：rsync服务"></a>2、如何部署搭建备份服务器：rsync服务</h1><h2 id="01、什么是rsync服务："><a href="#01、什么是rsync服务：" class="headerlink" title="01、什么是rsync服务："></a>01、什么是rsync服务：</h2><p>rsync是一款开源的、快速的、多功能的可实现的全量及增量的本地或者远程数据同步备份的优秀工具。</p>
+<p>a、本地备份的命令</p>
+<pre><code>cp /etc/hosts   /etc/hosts.bak
+
+rsync /etc/hosts  /tmp/hosts_rsync</code></pre>
+<p>b、 远程备份 scp</p>
+<p>远程备份的数据首先要有个备份目录</p>
+<p>在备份服务器创建一个backup的目录</p>
+<pre><code>mkdir /backup
+
+scp -rp /etc/hosts  root@172.16.1.41:/backup
+
+-r 递归复制传输数据
+
+-p 保持文件属性</code></pre>
+<h2 id="02、rsync方式备份数据"><a href="#02、rsync方式备份数据" class="headerlink" title="02、rsync方式备份数据"></a>02、rsync方式备份数据</h2><p>先安装软件</p>
+<pre><code>yum install -y rsync </code></pre>
+<p>这里我把存储服务器先当作客户端，服务器名字为nfs01,其他修改和备份服务器一样,之前我在里面搞了一下东西，现在这个目录里是没有hosts_rsync文件的</p>
+<p><img src="https://cdn.jsdelivr.net/gh/LWANGYONG/cdn/img/1.png" alt="img"></p>
+<p>我们先查看一下备份服务器backup目录</p>
+<p>rsync -rp  /etc/hosts 172.16.1.41:/backup/hosts_rsync</p>
+<p><img src="https://cdn.jsdelivr.net/gh/LWANGYONG/cdn/img/2.png" alt="img"></p>
+<p>此时备份服务器就已经有了</p>
+<p><img src="https://cdn.jsdelivr.net/gh/LWANGYONG/cdn/img/3.png" alt="img"></p>
+<p>总结：用rsync备份目录时：</p>
+<p>备份目录后面有 /            只讲目录下面的内容备份</p>
+<p>备份目录时后面没有  /   只备份目录</p>
+<h1 id="2、守护进程方式备份数据"><a href="#2、守护进程方式备份数据" class="headerlink" title="2、守护进程方式备份数据"></a>2、守护进程方式备份数据</h1><p>01、可以进行一些备注管理</p>
+<p>02、可以进行安全策略管理</p>
+<p>03、可以实现自动传输备份数据</p>
+<h2 id="1、rsync-守护进程部署方式；（服务端）"><a href="#1、rsync-守护进程部署方式；（服务端）" class="headerlink" title="1、rsync 守护进程部署方式；（服务端）"></a>1、rsync 守护进程部署方式；（服务端）</h2><p>（1）下载软件</p>
+<p>yum install -y rsync</p>
+<p>（2）配置文件</p>
+<p>vim /etc/rsyncd.conf 把下面添加进去</p>
+<pre><code>##created by HQ at 2017
+###rsyncd.conf start##
+
+uid = rsync       --- 指定管理备份目录的用户  
+gid = rsync       --- 指定管理备份目录的用户组
+port = 873        --- 定义rsync备份服务的网络端口号
+fake super = yes  --- 将rsync虚拟用户伪装成为一个超级管理员用户 
+use chroot = no   --- 和安全相关的配置
+max connections = 200  --- 最大连接数  同时只能有200个客户端连接到备份服务器
+timeout = 300          --- 超时时间(单位秒)
+pid file = /var/run/rsyncd.pid   --- 记录进程号码信息 1.让程序快速停止进程 2. 判断一个服务是否正在运行
+lock file = /var/run/rsync.lock  --- 锁文件
+log file = /var/log/rsyncd.log   --- rsync服务的日志文件 用于排错分析问题
+ignore errors                    --- 忽略传输中的简单错误
+read only = false                --- 指定备份目录是可读可写
+list = false                     --- 使客户端可以查看服务端的模块信息
+hosts allow = 172.16.1.0/24      --- 允许传输备份数据的主机(白名单)
+hosts deny = 0.0.0.0/32          --- 禁止传输备份数据的主机(黑名单)
+auth users = rsync_backup        --- 指定认证用户 
+secrets file = /etc/rsync.password   --- 指定认证用户密码文件 用户名称:密码信息
+[backup]                         --- 模块信息
+comment = &quot;backup dir by oldboy&quot;  
+path = /backup                   --- 模块中配置参数 指定备份目录</code></pre>
+<p>（3）创建虚拟用户（rsync）</p>
+<pre><code>useradd rsync -M -s /sbin/nologin</code></pre>
+<p>（4）创建备份服务器认证密码文件</p>
+<pre><code>echo &quot;rsync_backup:123456&quot; &gt;/etc/rsync.password
+
+cat /etc/rsync.password  #查看一下
+
+chmod 600 /etc/rsync.passwod    #设置权限</code></pre>
+<p>（5）创建备份目录</p>
+<pre><code>mkdir  /backup
+
+chown  rsync.rsync /backup   #修改用户主和用户组</code></pre>
+<p>（6）启动备份服务器</p>
+<pre><code>systemctl start rsyncd   #启动rsync服务
+
+systemctl  enable rsyncd  #设置开机自启
+
+systemctl status rsyncd    #查看状态</code></pre>
+<h2 id="2、rsync守护进程客户端部署"><a href="#2、rsync守护进程客户端部署" class="headerlink" title="2、rsync守护进程客户端部署"></a>2、rsync守护进程客户端部署</h2><p>（1）创建一个密码信息</p>
+<pre><code>echo &quot;123456&quot; &gt;/etc/rsync.password  #添加密码信息
+
+chmod 600 /etc/rsync.password          #修改权限</code></pre>
+<p>（2）进行免交互式传输数据测试</p>
+<pre><code>rsync -avz /etc/hosts  rsync_backup@172.16.1.41::backup  --password-file=/etc/rsync.password</code></pre>
+<p>（3）恢复数据</p>
+<pre><code>rsync -avz root@172.16.1.41:/backup/hosts  ./--password-file=/etc/rsync.password</code></pre>
+<p><img src="https://cdn.jsdelivr.net/gh/LWANGYONG/cdn/img/5.png" alt="img"></p>
+<p>rsync命令参数说明</p>
+<pre><code>-v   显示详细的传输信息
+
+-a   命令的归档参数
+
+-r    递归参数
+
+-t    保持文件属性，修改时间信息不变
+
+-o   保持文件属主不变
+
+-g   保持文件的属组不变
+
+PS：如何让-o和-g参数生效，需要将配置文件rsyncd.conf中的uid和gid改为root，把fake super参数进行注释
+
+-p   保持文件权限信息不变
+
+-D   保持设备文件信息不变
+
+-l    保持链接文件属性信息不变
+
+-L   保持链接文件数据信息不变
+
+-P   显示数据传输的进度信息
+
+--exclude=PATTERN   排除指定数据不被传输
+
+--exclude-from=file    排除指定数据不被传输（批量排除）
+
+--bwlimit=RATE           显示传输速率
+
+--delete                        无差异同步参数</code></pre>
  
       <!-- reward -->
       
@@ -301,7 +332,7 @@ dev                &quot;backup dir by oldboy&quot;</code></pre>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BC%81%E4%B8%9A%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/" rel="tag">企业中的应用</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84/" rel="tag">综合架构</a></li></ul>
 
     </footer>
   </div>
@@ -309,11 +340,11 @@ dev                &quot;backup dir by oldboy&quot;</code></pre>
    
   <nav class="article-nav">
     
-      <a href="/article/22885f4a.html" class="article-nav-link">
+      <a href="/article/87041637.html" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            LINUX运维学习之综合架构篇——备份服务器搭建
+            备份服务器项目需求
           
         </div>
       </a>
