@@ -34,7 +34,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    归档: 2020/12 |  小白同学的博客
+    守护进程服务在企业应用 |  小白同学的博客
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -79,93 +79,306 @@
       
     <main class="content on">
       <section class="outer">
-  
-  <article class="articles">
+  <article
+  id="post-守护进程服务在企业应用"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-    
-    <h1 class="page-type-title">2020/12</h1>
-    
-    
-  
-  
-  
-  
-  
-  
-  <div class="archives-wrap">
-    <div class="archive-year-wrap">
-      <a href="/archives/2020" class="archive-year">2020</a>
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  守护进程服务在企业应用
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/article/22885f4a.html" class="article-date">
+  <time datetime="2021-01-08T15:07:31.000Z" itemprop="datePublished">2021-01-08</time>
+</a>   
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">622</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">3 分钟</span>
+        </span>
+    </span>
+</div>
+ 
     </div>
-    <div class="archives">
       
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/article/f439b05e.html" class="archive-article-date">
-  <time datetime="2020-12-28T12:08:59.000Z" itemprop="datePublished">12/28</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/article/f439b05e.html"
-    >LINUX运维学习之综合架构篇——架构搭建准备</a> 
-</h2>
- 
+    <div class="tocbot"></div>
 
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/article/c5cc7aa1.html" class="archive-article-date">
-  <time datetime="2020-12-28T12:05:59.000Z" itemprop="datePublished">12/28</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/article/c5cc7aa1.html"
-    >ansible</a> 
-</h2>
- 
 
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/article/16107.html" class="archive-article-date">
-  <time datetime="2020-12-20T13:53:21.248Z" itemprop="datePublished">12/20</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/article/16107.html"
-    >Hello World</a> 
-</h2>
- 
 
-    </header>
-    
-    
-  </div>
-</article>
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="1、守护进程多模块功能配置"><a href="#1、守护进程多模块功能配置" class="headerlink" title="1、守护进程多模块功能配置"></a>1、守护进程多模块功能配置</h1><pre><code>sa sa_data.txt
+dev dev_data.txt
+dba dba_data.txt
+vim /etc/rsync.conf
+#添加以下信息
+[backup]
+comment = &quot;backup dir by oldboy&quot;
+path = /backup
+[dba]
+comment = &quot;backup dir by oldboy&quot;
+path = /dba
+[dev]
+comment = &quot;backup dir by oldboy&quot;
+path = /devdata</code></pre>
+<h1 id="2、守护进程的排除环境"><a href="#2、守护进程的排除环境" class="headerlink" title="2、守护进程的排除环境"></a>2、守护进程的排除环境</h1><pre><code>[root@nfs01 /]# mkdir -p /oldboy
+[root@nfs01 /]# mkdir -p /oldboy/&#123;a..c&#125;
+[root@nfs01 /]# touch /oldboy/&#123;a..c&#125;/&#123;1..3&#125;.txt
+[root@nfs01 /]# tree /oldboy
+/oldboy
+├── 01.txt
+├── 02.txt
+├── a
+│?? ├── 1.txt
+│?? ├── 2.txt
+│?? └── 3.txt
+├── b
+│?? ├── 1.txt
+│?? ├── 2.txt
+│?? └── 3.txt
+└── c
+    ├── 1.txt
+    ├── 2.txt
+    └── 3.txt</code></pre>
+<h2 id="01、-需求01-将-oldboy目录下面-a目录数据全部备份-b目录不要备份1-txt文件-c整个目录不要做备份"><a href="#01、-需求01-将-oldboy目录下面-a目录数据全部备份-b目录不要备份1-txt文件-c整个目录不要做备份" class="headerlink" title="01、 需求01: 将/oldboy目录下面 a目录数据全部备份 b目录不要备份1.txt文件 c整个目录不要做备份"></a>01、 需求01: 将/oldboy目录下面 a目录数据全部备份 b目录不要备份1.txt文件 c整个目录不要做备份</h2><pre><code>--exclude=PATTERN
+绝对路径方式:
+[root@nfs01 /]# rsync -avz /oldboy --exclude=/oldboy/b/1.txt --exclude=/oldboy/c/rsync_backup@172.16.1.41::backup --password-file=/etc/rsync.password 
+sending incremental file list
+oldboy/
+oldboy/01.txt
+oldboy/02.txt
+oldboy/a/
+oldboy/a/1.txt
+oldboy/a/2.txt
+oldboy/a/3.txt
+oldboy/b/
+oldboy/b/2.txt
+oldboy/b/3.txt
+相对路径方式:
+[root@nfs01 /]# rsync -avz /oldboy --exclude=b/1.txt --exclude=c/ rsync_backup@172.16.1.41::backup --password-file=/etc/rsync.password 
+sending incremental file list
+oldboy/
+oldboy/01.txt
+oldboy/02.txt
+oldboy/a/
+oldboy/a/1.txt
+oldboy/a/2.txt
+oldboy/a/3.txt
+oldboy/b/
+oldboy/b/2.txt
+oldboy/b/3.txt</code></pre>
+<p>​<br>    sent 502 bytes  received 177 bytes  1,358.00 bytes/sec<br>    total size is 0  speedup is 0.00</p>
+<h2 id="02、将-oldboy目录下面-a目录数据全部备份-b目录不要备份1-txt文件-c整个目录1-txt-3-txt文件不要备份"><a href="#02、将-oldboy目录下面-a目录数据全部备份-b目录不要备份1-txt文件-c整个目录1-txt-3-txt文件不要备份" class="headerlink" title="02、将/oldboy目录下面 a目录数据全部备份 b目录不要备份1.txt文件 c整个目录1.txt 3.txt文件不要备份"></a>02、将/oldboy目录下面 a目录数据全部备份 b目录不要备份1.txt文件 c整个目录1.txt 3.txt文件不要备份</h2><pre><code>--exclude-from=file  --- 批量排除 
+第一个历程: 编辑好一个排除文件
+[root@nfs01 /]# cat /oldboy/exclude.txt 
+b/1.txt
+c/1.txt
+c/3.txt
+exclude.txt
+第二个历程: 实现批量排除功能
+[root@nfs01 /]# rsync -avz /oldboy --exclude-from=/oldboy/exclude.txt rsync_backup@172.16.1.41::backup --password-file=/etc/rsync.password 
+sending incremental file list
+oldboy/
+oldboy/01.txt
+oldboy/02.txt
+oldboy/a/
+oldboy/a/1.txt
+oldboy/a/2.txt
+oldboy/a/3.txt
+oldboy/b/
+oldboy/b/2.txt
+oldboy/b/3.txt
+oldboy/c/
+oldboy/c/2.txt</code></pre>
+<h2 id="03、守护进程来创建备份目录"><a href="#03、守护进程来创建备份目录" class="headerlink" title="03、守护进程来创建备份目录"></a>03、守护进程来创建备份目录</h2><pre><code>[root@nfs01 /]# rsync -avz /etc/hosts  rsync_backup@172.16.1.41::backup/10.0.0.31/ --password-file=/etc/rsync.password 
+sending incremental file list
+created directory 10.0.0.31
+hosts
+sent 226 bytes  received 75 bytes  602.00 bytes/sec
+total size is 371  speedup is 1.23
+PS: 客户端无法在服务端创建多级目录</code></pre>
+<h1 id="3、-守护进程的访问控制配置"><a href="#3、-守护进程的访问控制配置" class="headerlink" title="3、 守护进程的访问控制配置"></a>3、 守护进程的访问控制配置</h1><p>守护进程白名单和黑名单功能<br>PS: 建议只使用一种名单</p>
+<pre><code>守护进程的列表功能配置
+[root@nfs01 /]# rsync rsync_backup@172.16.1.41::
+backup             &quot;backup dir by oldboy&quot;
+dba                &quot;backup dir by oldboy&quot;
+dev                &quot;backup dir by oldboy&quot;</code></pre>
+ 
+      <!-- reward -->
       
+      <div id="reword-out">
+        <div id="reward-btn">
+          打赏
+        </div>
+      </div>
       
     </div>
-  </div>
-  
-  
+    
 
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://blog-wangyong.xyz/article/22885f4a.html" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BC%81%E4%B8%9A%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/" rel="tag">企业中的应用</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/article/87041637.html" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            备份服务器项目需求
+          
+        </div>
+      </a>
+    
+    
+      <a href="/article/f439b05e.html" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">LINUX运维学习之综合架构篇——架构搭建准备</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "O2Io4gVaaAPXrHfJOT8PCeTz-gzGzoHsz",
+    app_key: "OmkF19LieIxiYq7ol2nCiXMe",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
   
+</article>
+
 </section>
       <footer class="footer">
   <div class="outer">
@@ -407,6 +620,23 @@
 <script src="/js/lazyload.min.js"></script>
 
 <!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
